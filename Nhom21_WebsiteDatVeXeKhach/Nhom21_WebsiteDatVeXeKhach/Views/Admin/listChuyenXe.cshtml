@@ -1,0 +1,82 @@
+﻿@{
+    ViewBag.Title = "Danh Sách Chuyến Xe";
+    Layout = "~/Views/SharedAdmin/_Layout.cshtml";
+}
+
+@using Nhom21_WebsiteDatVeXeKhach.Models.Entities
+@using System.Globalization
+@model List<CHUYENXE>
+
+<script>
+    var element = document.getElementById("collapse4");
+    element.classList.add("in");
+</script>
+
+<h2>Danh Sách Chuyến Xe</h2>
+<div class="bang-danh-sach">
+    <table class="table table-hover table-striped">
+        <col style="width: 10%">
+        <col style="width: 10%">
+        <col style="width: 10%">
+        <col style="width: 10%">
+        <col style="width: 20%">
+        <col style="width: 10%">
+        <col style="width: 10%">
+        <col style="width: 10%">
+        <col style="width: 10%">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Thời Gian Đi</th>
+                <th>Thời Gian Đến</th>
+                <th>Số Ghế Trống</th>
+                <th>Giá Vé</th>
+                <th>ID Điểm Đón</th>
+                <th>ID Điểm Đến</th>
+                <th>ID Xe Khách </th>
+                <th>Thao Tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (CHUYENXE p in Model)
+                {
+                    <tr>
+                        <td>@p.ID_ChuyenXe</td>
+                        <td>@p.ThoiGianXP.Value.ToString("HH:mm")</td>
+                        <td>@p.ThoiGianDen.Value.ToString("HH:mm")</td>
+                        <td>@p.SoGheTrong</td>
+                        <td>@p.GiaVe VNĐ</td>
+                        <td>@p.ID_DiemXP</td>
+                        <td>@p.ID_DiemDen</td>
+                        <td>@p.ID_XeKhach</td>
+                        <td>
+                            <a href="/Admin/SuaChuyenXe/@p.ID_ChuyenXe">Sửa</a>&nbsp;|&nbsp;
+                            <a href="#" data-toggle="modal" data-target="#myModal"
+                               onclick="myFunction('/Admin/XoaChuyenXe/@p.ID_ChuyenXe')">
+                                Xóa
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+<div class="trang">
+    <ul class="pagination">
+        <li><a href="/Admin/listChuyenXe/1">«</a></li>
+        @for (int i = 1; i <= ViewBag.SoTrang; i++)
+        {
+            <li id="li-@i"><a href="/Admin/listChuyenXe/@i">@i</a></li>
+        }
+        <li><a href="/Admin/listChuyenXe/@ViewBag.SoTrang">»</a></li>
+    </ul>
+</div>
+
+<script>
+    var trang = document.getElementById('li-@ViewBag.Trang');
+    trang.classList.add('active');
+</script>
+
+@Html.Partial("~/Views/SharedAdmin/_HopThoaiXacNhan.cshtml")

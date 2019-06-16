@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "Tìm Kiếm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.DiaChi = 1;
+}
+
+@using Nhom21_WebsiteDatVeXeKhach.Models.ViewModels;
+@model List<TimXeView>
+
+
+@if (Model.Count == 0)
+{
+    <h3>Không Có Xe Khách Thỏa Mãn!</h3>
+}
+else
+{
+    <h2 style="color:mediumaquamarine">Danh Sách Xe Khách Tìm Kiếm Được</h2>
+    <div class="container">
+        @foreach (TimXeView pv in @Model)
+        {
+            <div class="phong">
+                <img class="img-rounded img-phong" src=@pv.HinhAnhXe alt="Image" width="250" height="149" />
+                <label>Mã Nhà Xe: @pv.ID_HangXe</label><br />
+                <label>Mã Xe: @pv.ID_XeKhach</label><br />
+                <label>Số Ghế: @pv.SoGhe</label><br />
+                <label>Mô Tả: @pv.MoTa</label><br />
+                <label>Ngày Đi: @Request.QueryString["ngayDi"]</label><br />
+                <label>Thời Gian: @pv.NgayDi.Value.ToString("HH:mm") - @pv.NgayDen.Value.ToString("HH:mm")</label><br />
+                <label>Lộ Trình: @pv.TenDiemDi - @pv.TenDiemDen</label><br />
+
+                <input type="button" class="btn-dat-phong"
+                       onclick="location.href = '/DatXe/DatXe/@pv.ID_XeKhach'" value="ĐẶT VÉ" />
+            </div>
+}
+    </div>
+}
+
+

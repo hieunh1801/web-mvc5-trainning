@@ -1,0 +1,78 @@
+﻿@{
+    ViewBag.Title = "Lịch Sử Đặt Vé";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.DiaChi = 2;
+}
+
+@using Nhom21_WebsiteDatVeXeKhach.Models.ViewModels
+@model List<LichSuDatVeView>
+
+<h3>Lịch Sử Đặt Vé</h3>
+
+<div class="wrap-lich-su">
+    @Html.Partial("_MenuLeftTTCN")
+    @if (@Model.Count > 0)
+    {
+        foreach (LichSuDatVeView lsv in @Model)
+        {
+            <div class="khung-lich-su">
+                <label>Mã Vé: <span style="color: blue;">@lsv.MaDatVe</span></label><br />
+                <label>Mã Chuyến Xe: <span style="color: blue;">@lsv.MaXeKhach</span></label><br />
+                <label>Thời Gian Đặt Vé: @lsv.ThoiGianDatVe</label><br />
+                <label>Số Lượng Vé: @lsv.SoLuongVe vé</label><br />
+                <label>Thời Gian Xuất Phát: @lsv.ThoiGianXP.ToString("HH:mm")</label><br />
+                <label>Thời Gian Đến: @lsv.ThoiGianDen.ToString("HH:mm")</label><br />
+                <label>Giá Vé: @lsv.GiaVe</label><br />
+                <label>Thành Tiền: @lsv.ThanhTien đ</label><br />
+                @if (lsv.TrangThaiDatVe == "0")
+                {
+                    <button class="btn btn-danger"
+                            type="submit" data-toggle="modal" data-target="#myModal"
+                            onclick="myFunction('/ThongTinCaNhan/XoaThongTinDat/@lsv.MaDatVe')">Hủy Vé</button>
+                }
+                else
+                {
+                    <button class="btn btn-danger" disabled>Quá Hạn Hủy</button>
+                }
+            </div>
+            <br />
+        }
+    }
+    else
+    {
+        <div class="khung-lich-su">
+            <label>Bạn Chưa Đặt Vé Nào!</label>
+        </div>
+    }
+</div>
+
+<script src="/Scripts/jquery.min.js"></script>
+<script src="/Scripts/bootstrap.min.js"></script>
+<script>
+    var link;
+    function myFunction(s) {
+        link = s;
+    }
+    function btnOKClick() {
+        window.location = link;
+    }
+</script>
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Thông Báo</h4>
+            </div>
+            <div class="modal-body">
+                <p>Bạn có chắc chắn muốn hủy đặt không?</p>
+            </div>
+            <div class="modal-footer">
+                <input type="button" style="width:70px" class="btn btn-success" data-dismiss="modal" value="Có" id="btnOK" onclick="btnOKClick()" />
+                <input type="button" style="width:70px" class="btn btn-default" data-dismiss="modal" value="Không" />
+            </div>
+        </div>
+    </div>
+</div>
+

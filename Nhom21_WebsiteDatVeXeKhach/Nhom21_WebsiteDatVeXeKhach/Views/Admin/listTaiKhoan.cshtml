@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Title = "Danh Sách Tài Khoản";
+    Layout = "~/Views/SharedAdmin/_Layout.cshtml";
+}
+
+@using Nhom21_WebsiteDatVeXeKhach.Models.Entities
+@model List<TAIKHOAN>
+
+<script>
+    var element = document.getElementById("collapse1");
+    element.classList.add("in");
+</script>
+
+<h2>Danh Sách Tài Khoản</h2>
+<div class="bang-danh-sach">
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Tài Khoản</th>
+                <th>Mật Khẩu</th>
+                <th>Họ Tên</th>
+                <th>Ngày Sinh</th>
+                <th>Số Điện Thoại</th>
+                <th>Email</th>
+                <th>Là Admin</th>
+                <th>Thao Tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (TAIKHOAN tk in Model)
+                {
+                    string laAdmin = tk.ID_Quyen == 1 ? "Có" : "Không";
+                    <tr>
+                        <td>@tk.ID_TaiKhoan</td>
+                        <td>@tk.TenTaiKhoan</td>
+                        <td>@tk.MatKhau</td>
+                        <td>@tk.HoTen</td>
+                        <td>@tk.NgaySinh.Value.ToString("dd-MM-yyyy")</td>
+                        <td>@tk.SoDT</td>
+                        <td>@tk.Email</td>
+                        <td>@tk.ID_Quyen</td>
+                        <td>
+                            <a href="/Admin/SuaTaiKhoan/@tk.ID_TaiKhoan">Sửa
+                            </a>&nbsp;|&nbsp;
+                            <a href="#" data-toggle="modal" data-target="#myModal" 
+                            onclick="myFunction('/Admin/XoaTaiKhoan/@tk.ID_TaiKhoan')">Xóa</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+@*Phân trang*@
+<div class="trang">
+    <ul class="pagination">
+        <li><a href="/Admin/listTaiKhoan/1">«</a></li>
+        @for (int i = 1; i <= ViewBag.SoTrang; i++)
+        {
+            <li id="li-@i"><a href="/Admin/listTaiKhoan/@i">@i</a></li>
+        }
+        <li><a href="/Admin/listTaiKhoan/@ViewBag.SoTrang">»</a></li>
+    </ul>
+</div>
+
+<script>
+    var trang = document.getElementById('li-@ViewBag.Trang');
+    trang.classList.add('active');
+</script>
+
+@Html.Partial("~/Views/SharedAdmin/_HopThoaiXacNhan.cshtml")

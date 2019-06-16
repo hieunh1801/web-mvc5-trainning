@@ -1,0 +1,16 @@
+﻿@{
+    ViewBag.Title = "Đặt Vé Thành Công";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.DiaChi = 1;
+}
+
+@using Nhom21_WebsiteDatVeXeKhach.Models.Entities
+
+<h3>Bạn Đã Đặt Vé Thành Công!</h3>
+<div class="container dat-phong-thanh-cong">
+    <p>Tài Khoản <span style="color: blue;">@(((TAIKHOAN)Session["TAIKHOAN"]).TenTaiKhoan)</span> đã đặt thành công!</p>
+    <p>Số Vé: @ViewBag.SoVe Vé</p>
+    <p>Thời Gian Đặt: @ViewBag.ThoiGianDat</p>
+    <p>Trạng Thái: @ViewBag.TrangThai</p>
+    <p><a href="/"><span style="color: #0000CC;">Quay Về Trang Chủ</span></a></p>
+</div>

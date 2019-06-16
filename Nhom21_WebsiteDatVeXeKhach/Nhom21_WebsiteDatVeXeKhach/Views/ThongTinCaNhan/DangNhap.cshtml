@@ -1,0 +1,34 @@
+﻿@{
+    ViewBag.Title = "Đăng Nhập";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using Nhom21_WebsiteDatVeXeKhach.Models.ViewModels
+@model TaiKhoanDangNhapView
+
+<h3>Đăng Nhập</h3>
+<div class="container dang-nhap-form">
+    <form action="" method="post">
+        <div class="form-group">
+            <label>Tài Khoản:</label>
+            <input class="form-control dang-nhap-text" type="text" name="TenTaiKhoan" placeholder="Nhập tài khoản" value="@Model.TenTaiKhoan" />
+            <span class="canh-bao">@Html.ValidationMessageFor(m => m.TenTaiKhoan)</span>
+        </div>
+        <div class="form-group">
+            <label>Mật Khẩu:</label>
+            <input class="form-control dang-nhap-text" type="password" name="MatKhau" placeholder="Nhập mật khẩu" value="@Model.MatKhau" />
+            <span class="canh-bao">@Html.ValidationMessageFor(m => m.MatKhau)</span>
+        </div>
+        <div class="form-group">
+            <div class="checkbox">
+                <label>
+                    @Html.CheckBoxFor(m => m.TuDongDangNhap, new { @class = "checkbox" })Tự Động Đăng Nhập
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <input class="btn btn-default" type="submit" value="Đăng Nhập" />
+        </div>
+    </form>
+</div>
+<h4>Nếu chưa có tài khoản? <a href="/ThongTinCaNhan/DangKy">Đăng Ký</a></h4>

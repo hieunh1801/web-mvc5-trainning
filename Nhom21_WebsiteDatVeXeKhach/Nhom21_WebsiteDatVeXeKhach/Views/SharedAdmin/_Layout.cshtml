@@ -1,0 +1,29 @@
+﻿@using Nhom21_WebsiteDatVeXeKhach.Models.Entities
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title - Quản Lý Bán Vé Xe Khách</title>
+    <link rel="Stylesheet" href="/Content/css/bootstrap.min.css" />
+    <link rel="Stylesheet" href="/Content/css/style.css" />
+</head>
+<body>
+    <div class="wrap-admin">
+        <nav class="navbar navbar-light" style="background-color: #FAFAFB; ">
+            <div class="navbar-header right">
+                <label class="navbar-brand">Quản trị viên: @User.Identity.Name </label>&nbsp;
+                <a class="navbar-brand" href="/Admin/DangXuat">Đăng Xuất</a>
+            </div>
+        </nav>
+        <h1 style="color: blue;"> <a href="/Admin/listTaiKhoan">TRANG QUẢN TRỊ</a> </h1>
+        <hr />
+        @Html.Partial("~/Views/SharedAdmin/_MenuTraiAdmin.cshtml")
+        <div class="body-admin">
+            @RenderBody()
+        </div>
+    </div>
+    <script src="/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="/Scripts/bootstrap.min.js"></script>
+</body>
+</html>

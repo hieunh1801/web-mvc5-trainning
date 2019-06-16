@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Danh Sách Xe Khách";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.DiaChi = 1;
+}
+
+@using Nhom21_WebsiteDatVeXeKhach.Models.Entities
+@model List<XEKHACH>
+
+@if (ViewBag.Success == 1)
+{
+    <h3>@ViewBag.TenNhaXe</h3>
+    <div class="container">
+        <img style="padding-bottom: 16px" src=@ViewBag.Logo alt="Image" width="500" height="300" />
+        <label id="thong-tin">@ViewBag.ThongTin</label>
+        <br />
+        <h3>Danh Sách Xe Khách</h3>
+        @foreach (XEKHACH xk in @Model)
+        {
+            <div class="phong">
+                <img class="img-rounded img-phong" src=@xk.HinhAnhXe alt="Image" width="250" height="149" />
+                <label>Mã Nhà Xe: @xk.ID_HangXe</label><br />
+                <label>Biển Số Xe: @xk.ID_XeKhach</label><br />
+                <label>Số Ghế: @xk.SoGhe ghế</label><br />
+                <label>Mô Tả: @xk.MoTa</label><br />
+                <input type="button" class="btn-dat-phong" 
+                       onclick="location.href = '/DatXe/DatXe/@xk.ID_XeKhach'"
+                       value="ĐẶT VÉ" />
+                @*<input type="button" class="btn-dat-phong" onclick="location.href = '/DatPhong/DatPhong/@pv.MaPhong'" value="ĐẶT PHÒNG" />*@
+            </div>
+        }
+    </div>
+}

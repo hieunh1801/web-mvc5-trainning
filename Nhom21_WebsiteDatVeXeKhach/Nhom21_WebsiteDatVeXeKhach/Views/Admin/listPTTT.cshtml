@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "Danh Sách Phương Thức Thanh Toán";
+    Layout = "~/Views/SharedAdmin/_Layout.cshtml";
+}
+
+@using Nhom21_WebsiteDatVeXeKhach.Models.Entities
+@model List<PHUONGTHUCTHANHTOAN>
+
+<script>
+    var element = document.getElementById("collapse5");
+    element.classList.add("in");
+</script>
+
+<h2>Danh Sách Phương Thức Thanh Toán</h2>
+<div class="bang-danh-sach">
+    <table class="table table-hover table-striped">
+        <colgroup>
+            <col style="width: 10%">
+            <col style="width: 30%">
+            <col style="width: 50%">
+            <col style="width: 10%">
+        </colgroup>
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Tên PTTT</th>
+                <th>Nội Dung</th>
+                <th>Thao Tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (PHUONGTHUCTHANHTOAN p in Model)
+                {
+                    <tr>
+                        <td>@p.ID_PTTT</td>
+                        <td>@p.TenPTTT</td>
+                        <td>@p.NoiDungPTTT</td>
+                        <td>
+                            <a href="/Admin/SuaPTTT/@p.ID_PTTT">Sửa</a>&nbsp;|&nbsp;
+                            <a href="#" data-toggle="modal" data-target="#myModal"
+                               onclick="myFunction('/Admin/XoaPTTT/@p.ID_PTTT')">
+                                Xóa
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+<div class="trang">
+    <ul class="pagination">
+        <li><a href="/Admin/listPTTT/1">«</a></li>
+        @for (int i = 1; i <= ViewBag.SoTrang; i++)
+        {
+            <li id="li-@i"><a href="/Admin/listPTTT/@i">@i</a></li>
+        }
+        <li><a href="/Admin/listPTTT/@ViewBag.SoTrang">»</a></li>
+    </ul>
+</div>
+
+<script>
+    var trang = document.getElementById('li-@ViewBag.Trang');
+    trang.classList.add('active');
+</script>
+
+@Html.Partial("~/Views/SharedAdmin/_HopThoaiXacNhan.cshtml")

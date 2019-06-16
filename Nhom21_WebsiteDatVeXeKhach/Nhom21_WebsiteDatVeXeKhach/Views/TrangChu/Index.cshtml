@@ -1,0 +1,86 @@
+﻿
+@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using Nhom21_WebsiteDatVeXeKhach.Models.Entities;
+@using Nhom21_WebsiteDatVeXeKhach.Models.ViewModels;
+@model TrangChuView
+
+
+<section class="banner_top">
+    <h2>Tìm kiếm vé xe khách</h2>
+    <div class="container ui-widget">
+        <form action="/XeKhach/TimKiem" method="get">
+            <input class="form-control gia-tri-tim-kiem tags" type="text" name="DiemDi" placeholder="Điểm đi" />
+            <input class="form-control gia-tri-tim-kiem tags" type="text" name="DiemDen" placeholder="Điểm đến" />
+            <input class="form-control gia-tri-tim-kiem" id="myDate" name="ngayDi"type="date" />
+            <script>
+                document.getElementById('myDate').value = new Date().toISOString().substring(0, 10);
+            </script>
+            <span>&nbsp;</span>
+            <input class="btn btn-success" type="submit" value="Tìm Kiếm" />
+        </form>
+    </div>
+</section>
+
+<h2>Góp phần cho hành trình của bạn hạnh phúc hơn</h2>
+<div class="container">
+    <div class="hang-xe">
+        <img src="/Content/images/intro-icon-car.png" alt="HÃNG XE UY TÍN">
+        <div>
+            <h3>HÃNG XE UY TÍN</h3>
+            <div class="description">XEKHACH.VN cung cấp vé của các hãng xe uy tín, đã được thị trường công nhận.</div>
+        </div>
+    </div>
+    <div class="hang-xe">
+        <img src="/Content/images/intro-icon-ghe.png" alt="GIỮ CHỖ 100%">
+        <div>
+            <h3>GIỮ CHỖ 100%</h3>
+            <div class="description">Mọi xe khi đặt mua qua XEKHACH.VN sẽ luôn luôn được giữ chỗ 100%.</div>
+        </div>
+    </div>
+    <div class="hang-xe">
+        <img src="/Content/images/intro-icon-bus.png" alt="GIÁ VÉ RẺ NHẤT">
+        <div>
+            <h3>GIÁ VÉ RẺ NHẤT</h3>
+            <div class="description">Giá vé tại XEKHACH.VN luôn luôn thấp hơn hoặc bằng giá vé chính hãng.</div>
+        </div>
+    </div>
+</div>
+
+<h2>Hệ thống nhà xe uy tín</h2>
+<div class="container">
+    @foreach (var item in @Model.hangxes)
+    {
+        <div class="hang-xe">
+            <a href="/XeKhach/XeKhach/@item.ID_HangXe">
+                <img class="img-rounded img-effect" src=@item.LogoHangXe alt=@item.TenHangXe width="270" height="160" />
+
+                <div class="ten-hang">
+                    @item.TenHangXe
+                </div>
+            </a>
+        </div>
+    }
+</div>
+
+<script type="text/javascript">
+    var arr = @Html.Raw(Json.Encode(@Model.diemden));
+    var availableTags = [];
+    for (i in arr) {
+        availableTags.push(arr[i].TenDiemDen)
+    }
+    //$(function () {
+    //    $(".tags").autocomplete({
+    //    source: availableTags
+    //    });
+    //});
+    $(".tags").autocomplete({
+        source: availableTags,
+        minLength: 0
+    }).focus(function () {
+        $(this).autocomplete('search', $(this).val())
+    });
+</script>

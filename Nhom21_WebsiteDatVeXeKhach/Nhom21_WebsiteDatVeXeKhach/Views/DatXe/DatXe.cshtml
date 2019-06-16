@@ -1,0 +1,66 @@
+﻿@{
+    ViewBag.Title = "Đặt Vé";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using Nhom21_WebsiteDatVeXeKhach.Models.ViewModels
+@model List<DatVeView>
+
+@if (Model.Count == 0)
+{
+    <h3>Không Có Chuyến Xe Thỏa Mãn!</h3>
+}
+else
+{
+    <h3>Đặt Vé Xe Khách</h3>
+    <div class="container">
+        <img src=@Model[0].HinhAnhXe alt="Image" height="250" width="500" />
+        <br />
+        <div class="phong">
+            <label>Tên Hãng Xe: @Model[0].TenHangXe</label><br />
+            <label>Biển Số Xe: @Model[0].ID_XeKhach</label><br />
+            <label>Số Ghế Trống: @Model[0].SoGheTrong ghế</label><br />
+            <label>Giá Vé: @Model[0].GiaVe đ/ghế</label><br />
+            <label>Lộ Trình: @Model[0].TenDiemDi - @Model[0].TenDiemDen</label><br />
+            <label>Thời Gian: @Model[0].NgayDi.Value.ToString("HH:mm") - @Model[0].NgayDen.Value.ToString("HH:mm")</label><br />
+        </div>
+        <form method="post">
+            <div class="form-group">
+                <label hidden>Mã Chuyến Xe: <input type="text" id="idChuyen" name="IdChuyenXe" 
+                                            value="@Model[0].ID_ChuyenXe" hidden></input></label>
+                <br />
+                <label>Số Vé Đặt&nbsp;</label>
+                <input class="form-control so-ngay" type="number" min="1" max=@Model[0].SoGheTrong
+                       value="1" id="SoVe" name="SoVe" on="funcTongTien()" />
+                <label>&nbsp;Vé</label>
+                <br />
+                <label>Thời Gian Đặt Vé: <label id="ngayDat" name="ThoiGian"></label></label>
+                <br />
+
+                <script type="text/javascript">
+                    var myVar = setInterval(myTimer, 1000);
+                    function myTimer() {
+                        var d = new Date();
+                        document.getElementById("ngayDat").innerHTML = d.toLocaleString();
+                    }
+                </script>
+
+                <div class="form-group">
+                    <label>
+                        Phương Thức Thanh Toán
+                        <select class="form-control dang-nhap-text admin-gia-thue" name="ID_PTTT">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <input class="btn btn-success" type="submit"
+                       onclick="location.href = '/DatXe/DatXe/@Model[0].ID_XeKhach'" value="Đặt Vé" />
+            </div>
+        </form>
+    </div>
+}
