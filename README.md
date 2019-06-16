@@ -1,6 +1,9 @@
-* Cấu trúc thư mục:
-- Project: 	Nhom21_WebsiteDatVeXeKhach
-- File Báo Cáo: Bao cao BTL.docx 
-				Bao cao BTL.pdf
-- File SQL: Create DB+Table.sql
-			InsertData.sql
+# Bài tập lớn CNW kì 6
+
+## Tạo Cơ sở dữ liệu
+- Create diagram
+- Create databse
+- Create data
+
+## Tạo Admin Areas
+[Link tham khảo tạo new areas]('http://learningprogramming.net/net/asp-net-mvc/area-in-asp-net-mvc/')
