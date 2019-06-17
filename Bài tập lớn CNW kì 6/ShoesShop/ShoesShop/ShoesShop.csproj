@@ -45,10 +45,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -121,7 +129,27 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
-    <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminAccount.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminHomeController.cs" />
+    <Compile Include="Areas\Admin\Models\Entities\Account.cs" />
+    <Compile Include="Areas\Admin\Models\Entities\Cart.cs" />
+    <Compile Include="Areas\Admin\Models\Entities\Category.cs" />
+    <Compile Include="Areas\Admin\Models\Entities\Color.cs" />
+    <Compile Include="Areas\Admin\Models\Entities\Customer.cs" />
+    <Compile Include="Areas\Admin\Models\Entities\Sho.cs" />
+    <Compile Include="Areas\Admin\Models\Entities\ShoesDetail.cs" />
+    <Compile Include="Areas\Admin\Models\Entities\ShoesStoreDBContext.cs" />
+    <Compile Include="Areas\Admin\Models\Entities\Size.cs" />
+    <Compile Include="Areas\Admin\Models\Entities\Vendor.cs" />
+    <Compile Include="Areas\Admin\Models\Funtions\AccountFunction.cs" />
+    <Compile Include="Areas\Admin\Models\Funtions\CartFunction.cs" />
+    <Compile Include="Areas\Admin\Models\Funtions\CategoryFunction.cs" />
+    <Compile Include="Areas\Admin\Models\Funtions\ColorFunction.cs" />
+    <Compile Include="Areas\Admin\Models\Funtions\ShoesDetailFunction.cs" />
+    <Compile Include="Areas\Admin\Models\Funtions\ShoesFunction.cs" />
+    <Compile Include="Areas\Admin\Models\Funtions\SizeFunction.cs" />
+    <Compile Include="Areas\Admin\Models\Funtions\VendorFunction.cs" />
+    <Compile Include="Areas\Admin\Models\ViewModals\AccountModal.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -171,8 +199,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Models\" />
+    <Folder Include="Security\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
