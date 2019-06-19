@@ -1,0 +1,227 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <script src="js/jquery.min.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <link href="css/prism.css" rel="stylesheet" />
+    <script src="js/prism.js" type="text/javascript"></script>
+
+</head>
+<body>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-xs-12">
+
+            <h3 class="page-header">Create ASP.NET MVC Project</h3>
+            <p>On the Visual Studio, create a <b>ASP.NET Web Application</b> project</p>
+            <p><img src="images/project-step-1.png" class="img-thumbnail"></p>
+
+            <p>Select <b>Empty</b> Template and Core Reference is <b>MVC</b></p>
+            <p><img src="images/project-step-2.png" class="img-thumbnail"></p>
+
+
+
+            <h3 class="page-header">Images Folder</h3>
+            <p>Create new folder named <b>Content</b>. In this folder, create new folder named <b>Images</b></p>
+
+
+
+            <h3 class="page-header">Entity Class</h3>
+            <p>In <b>Models</b> folder, create new entities class as below:</p>
+
+            <h4 class="page-header">Product.cs</h4>
+            <p>Create new class named <b>Product.cs</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-csharp">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace LearnASPNETMVCWithRealApps.Models
+{
+    public class Product
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public double Price { get; set; }
+        public List&lt;string&gt; Photos { get; set; }
+    }
+}
+</code></pre>
+
+
+
+			<h3 class="page-header">Create Controller</h3>
+			<p>In <b>Controllers</b> folder, create new controller named <b>ProductController.cs</b> as below:</p>
+<pre class="language-markup line-numbers"><code class="language-csharp">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using LearnASPNETMVCWithRealApps.Models;
+
+namespace LearnASPNETMVCWithRealApps.Controllers
+{
+    public class ProductController : Controller
+    {
+        [HttpGet]
+        public ActionResult Index()
+        {
+            return View("Index", new Product());
+        }
+
+        [HttpPost]
+        public ActionResult Save(Product product, HttpPostedFileBase[] photos)
+        {
+            if (photos != null)
+            {
+                List&lt;string&gt; files = new List&lt;string&gt;();
+                foreach (var photo in photos)
+                {
+                    photo.SaveAs(Server.MapPath("~/Content/Images/" + photo.FileName));
+                    files.Add(photo.FileName);
+                }
+                product.Photos = files;
+            }
+            ViewBag.product = product;
+            return View("Success");
+        }
+
+    }
+}
+</code></pre>
+
+
+
+
+            <h3 class="page-header">Create View</h3>
+            <p>In <b>Views/Product</b> folder, create new views as below:</p>
+
+            <h4 class="page-header">Index View</h4>
+            <p>Create new view named <b>Index.cshtml</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-html">@{
+    Layout = null;
+}
+@model LearnASPNETMVCWithRealApps.Models.Product
+
+&lt;!DOCTYPE html&gt;
+
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot; /&gt;
+    &lt;title&gt;Index&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    @using (Html.BeginForm(&quot;Save&quot;, &quot;Product&quot;, FormMethod.Post, new { enctype = &quot;multipart/form-data&quot; }))
+    {
+        &lt;table cellpadding=&quot;2&quot; cellspacing=&quot;2&quot;&gt;
+            &lt;tr&gt;
+                &lt;td&gt;Id&lt;/td&gt;
+                &lt;td&gt;@Html.TextBoxFor(model =&gt; model.Id)&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;Name&lt;/td&gt;
+                &lt;td&gt;@Html.TextBoxFor(model =&gt; model.Name)&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;Price&lt;/td&gt;
+                &lt;td&gt;@Html.TextBoxFor(model =&gt; model.Price)&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;Photo&lt;/td&gt;
+                &lt;td&gt;
+                    &lt;input type=&quot;file&quot; name=&quot;photos&quot; multiple=&quot;multiple&quot; /&gt;
+                &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+                &lt;td&gt;&lt;input type=&quot;submit&quot; value=&quot;Save&quot; /&gt;&lt;/td&gt;
+            &lt;/tr&gt;
+        &lt;/table&gt;
+    }
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+
+            <h4 class="page-header">Success View</h4>
+            <p>Create new view named <b>Success.cshtml</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-html">@{
+    Layout = null;
+}
+
+&lt;!DOCTYPE html&gt;
+
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot; /&gt;
+    &lt;title&gt;Success&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    &lt;h3&gt;Product Info&lt;/h3&gt;
+    &lt;table cellpadding=&quot;2&quot; cellspacing=&quot;2&quot; border=&quot;1&quot;&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Id&lt;/td&gt;
+            &lt;td&gt;@ViewBag.product.Id&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Name&lt;/td&gt;
+            &lt;td&gt;@ViewBag.product.Name&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Price&lt;/td&gt;
+            &lt;td&gt;@ViewBag.product.Price&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Photo&lt;/td&gt;
+            &lt;td&gt;
+                @foreach (var photo in @ViewBag.product.Photos)
+                {
+                    &lt;img src=&quot;~/Content/Images/@photo&quot; width=&quot;120&quot; /&gt;
+                }
+            &lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+
+
+            <h3 class="page-header">Structure of ASP.NET MVC Project</h3>
+            <p><img src="images/project-single-upload.png" class="img-thumbnail"></p>
+
+
+
+            <h3 class="page-header">Run Application</h3>
+            <p>Access <b>Index</b> action in <b>Product</b> controller with following url: <b>http://localhost:49328/Product/Index</b></p>
+            <p><b>Output</b></p>
+            <p><img src="images/project-single-upload-input.png" class="img-thumbnail"></p>
+
+            <p>Input new product information and select photos need upload to <b>Images</b> folder</p>
+            <p><img src="images/project-multiple-upload-input-2.png" class="img-thumbnail"></p>
+
+            <p>Click <b>Save</b> button submit form to <b>Save</b> action in <b>Product</b> controller with following url: <b>http://localhost:49328/Product/Save</b></p>
+            <p><b>Output</b></p>
+            <p><img src="images/project-multiple-upload-output.png" class="img-thumbnail"></p>
+            <p><img src="images/project-multiple-upload-output-2.png" class="img-thumbnail"></p>
+
+
+		</div>
+    </div>
+
+
+
+
+
+</div>
+
+
+</body></html>

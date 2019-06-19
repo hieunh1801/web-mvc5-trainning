@@ -1,0 +1,165 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <script src="js/jquery.min.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <link href="css/prism.css" rel="stylesheet" />
+    <script src="js/prism.js" type="text/javascript"></script>
+
+</head>
+<body>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-xs-12">
+
+            <h3 class="page-header">Create ASP.NET MVC Project</h3>
+            <p>On the Visual Studio, create a <b>ASP.NET Web Application</b> project</p>
+            <p><img src="images/project-step-1.png" class="img-thumbnail"></p>
+
+            <p>Select <b>Empty</b> Template and Core Reference is <b>MVC</b></p>
+            <p><img src="images/project-step-2.png" class="img-thumbnail"></p>
+
+
+            <h3 class="page-header">Images Folder</h3>
+            <p>Create new folder named <b>Content</b>. In this folder, create new folder named <b>Images</b>. Copy images need show to this folder</p>
+
+
+            <h3 class="page-header">Entity Class</h3>
+            <p>In <b>Models</b> folder, create new entities class as below:</p>
+
+            <h4 class="page-header">Product.cs</h4>
+            <p>Create new class named <b>Product.cs</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-csharp">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace LearnASPNETMVCWithRealApps.Models
+{
+    public class Product
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Photo { get; set; }
+        public double Price { get; set; }
+        public int Quantity { get; set; }
+    }
+}
+</code></pre>
+
+
+			<h3 class="page-header">Create Controller</h3>
+			<p>In <b>Controllers</b> folder, create new controller named <b>DemoController.cs</b> pass objects list to view as below:</p>
+<pre class="language-markup line-numbers"><code class="language-csharp">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using LearnASPNETMVCWithRealApps.Models;
+
+namespace LearnASPNETMVCWithRealApps.Controllers
+{
+    public class DemoController : Controller
+    {
+        public ActionResult Index()
+        {
+            List&lt;Product&gt; products = new List&lt;Product&gt;() {
+                new Product () {
+                    Id = "p01",
+                    Name = "Name 1",
+                    Photo = "thumb1.gif",
+                    Price = 5.5,
+                    Quantity = 4
+                },
+                new Product () {
+                    Id = "p02",
+                    Name = "Name 2",
+                    Photo = "thumb2.gif",
+                    Price = 7,
+                    Quantity = 3
+                },
+                new Product () {
+                    Id = "p03",
+                    Name = "Name 3",
+                    Photo = "thumb3.gif",
+                    Price = 8,
+                    Quantity = 6
+                }
+            };
+            ViewBag.products = products;
+            return View();
+        }
+    }
+}
+</code></pre>
+
+            <h3 class="page-header">Create View</h3>
+            <p>In <b>Views/Demo</b> folder, create new view named <b>Index.cshtml</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-html">@{
+    Layout = null;
+}
+
+&lt;!DOCTYPE html&gt;
+
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot; /&gt;
+    &lt;title&gt;Index&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    &lt;h3&gt;Products List&lt;/h3&gt;
+    &lt;table border=&quot;1&quot; cellpadding=&quot;2&quot; cellspacing=&quot;2&quot;&gt;
+        &lt;tr&gt;
+            &lt;th&gt;Id&lt;/th&gt;
+            &lt;th&gt;Name&lt;/th&gt;
+            &lt;th&gt;Photo&lt;/th&gt;
+            &lt;th&gt;Price&lt;/th&gt;
+            &lt;th&gt;Quantity&lt;/th&gt;
+            &lt;th&gt;Total&lt;/th&gt;
+        &lt;/tr&gt;
+        @foreach (var product in ViewBag.products)
+        {
+            &lt;tr&gt;
+                &lt;td&gt;@product.Id&lt;/td&gt;
+                &lt;td&gt;@product.Name&lt;/td&gt;
+                &lt;td&gt;&lt;img src=&quot;~/Content/Images/@product.Photo&quot; width=&quot;60&quot; /&gt;&lt;/td&gt;
+                &lt;td&gt;@product.Price&lt;/td&gt;
+                &lt;td&gt;@product.Quantity&lt;/td&gt;
+                &lt;td&gt;@(product.Price * product.Quantity)&lt;/td&gt;
+            &lt;/tr&gt;
+        }
+    &lt;/table&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+
+            <h3 class="page-header">Structure of ASP.NET MVC Project</h3>
+            <p><img src="images/project-pass-object.png" class="img-thumbnail"></p>
+
+
+            <h3 class="page-header">Run Application</h3>
+            <p>Access <b>Index</b> action in <b>Demo</b> controller with following url: <b>http://localhost:49328/Demo/Index</b></p>
+            <p><b>Output</b></p>
+            <p><img src="images/project-pass-object-list-output.png" class="img-thumbnail"></p>
+
+
+
+		</div>
+    </div>
+
+
+
+
+
+</div>
+
+
+</body></html>

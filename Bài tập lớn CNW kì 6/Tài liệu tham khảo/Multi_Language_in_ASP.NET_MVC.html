@@ -1,0 +1,243 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <script src="js/jquery.min.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <link href="css/prism.css" rel="stylesheet" />
+    <script src="js/prism.js" type="text/javascript"></script>
+
+</head>
+<body>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-xs-12">
+
+            <h3 class="page-header">Create ASP.NET MVC Project</h3>
+            <p>On the Visual Studio, create a <b>ASP.NET Web Application</b> project</p>
+            <p><img src="images/project-step-1.png" class="img-thumbnail"></p>
+
+            <p>Select <b>Empty</b> Template and Core Reference is <b>MVC</b></p>
+            <p><img src="images/project-step-2.png" class="img-thumbnail"></p>
+
+
+
+            <h3 class="page-header">Resource Files</h3>
+            <p>Create <b>App_GlobalResources</b> folder in project. In this folder, create new resource files as below:</p>
+
+            <h4 class="page-header">Content.resx</h4>
+            <p><img src="images/product-multi-languages-content.png" class="img-thumbnail"></p>
+
+            <h4 class="page-header">Content.en.resx</h4>
+            <p><img src="images/product-multi-languages-content-en.png" class="img-thumbnail"></p>
+
+            <h4 class="page-header">Content.de.resx</h4>
+            <p><img src="images/product-multi-languages-content-de.png" class="img-thumbnail"></p>
+
+            <h4 class="page-header">Content.fr.resx</h4>
+            <p><img src="images/product-multi-languages-content-fr.png" class="img-thumbnail"></p>
+
+
+
+            <h3 class="page-header">Set Language</h3>
+            <p>Open <b>Global.asax</b> file use <b>Application_AcquireRequestState</b> event to get current language as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-csharp">using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Threading;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Routing;
+
+namespace LearnASPNETMVCWithRealApps
+{
+    public class MvcApplication : System.Web.HttpApplication
+    {
+        protected void Application_Start()
+        {
+            AreaRegistration.RegisterAllAreas();
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
+        }
+
+        protected void Application_AcquireRequestState(Object sender, EventArgs e)
+        {
+            HttpContext context = HttpContext.Current;
+            var languageSession = "en";
+            if (context != null && context.Session != null)
+            {
+                languageSession = context.Session["lang"] != null ? context.Session["lang"].ToString() : "en";
+            }
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(languageSession);
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(languageSession);
+        }
+
+    }
+}
+</code></pre>
+
+
+
+            <h3 class="page-header">Entities Class</h3>
+            <p>In <b>Models</b> folder, create new entities class as below:</p>
+
+            <h4 class="page-header">Account Entity</h4>
+            <p>Create new class named <b>Account.cs</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-csharp">using Resources;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+
+namespace LearnASPNETMVCWithRealApps.Models
+{
+    public class Account
+    {
+        public string Username { get; set; }
+
+        public string Password { get; set; }
+
+        public string FullName { get; set; }
+
+        public string Address { get; set; }
+    }
+}
+</code></pre>
+
+
+
+
+			<h3 class="page-header">Create Controller</h3>
+			<p>In <b>Controllers</b> folder, create new controller named <b>AccountController.cs</b> as below:</p>
+<pre class="language-markup line-numbers"><code class="language-csharp">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace LearnASPNETMVCWithRealApps.Controllers
+{
+    public class AccountController : Controller
+    {
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult ChangeLanguage(string lang)
+        {
+            Session["lang"] = lang;
+            return RedirectToAction("Index", "Account", new { language = lang });
+        }
+
+    }
+}
+</code></pre>
+
+
+
+            <h3 class="page-header">Create View</h3>
+            <p>In <b>Views/Account</b> folder, create new views as below:</p>
+
+            <h4 class="page-header">Index View</h4>
+            <p>Create new view named <b>Index.cshtml</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-html">&lt;!DOCTYPE html&gt;
+
+@model LearnASPNETMVCWithRealApps.Models.Account
+
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot; /&gt;
+    &lt;title&gt;@Resources.Content.Register&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    &lt;a href=&quot;@Url.Action(&quot;ChangeLanguage&quot;, &quot;Account&quot;, new { lang = &quot;en&quot; })&quot;&gt;English&lt;/a&gt; |
+    &lt;a href=&quot;@Url.Action(&quot;ChangeLanguage&quot;, &quot;Account&quot;, new { lang = &quot;fr&quot; })&quot;&gt;French&lt;/a&gt; |
+    &lt;a href=&quot;@Url.Action(&quot;ChangeLanguage&quot;, &quot;Account&quot;, new { lang = &quot;de&quot; })&quot;&gt;German&lt;/a&gt;
+    &lt;br /&gt;
+
+    &lt;h3&gt;Number Format&lt;/h3&gt;
+    @{ var number = 1234567; }
+    Number: @number.ToString(&quot;N&quot;)
+
+    &lt;h3&gt;Currency Format&lt;/h3&gt;
+    @{ var price = 1234567; }
+    Price: @price.ToString(&quot;C&quot;)
+
+    &lt;h3&gt;Percent Format&lt;/h3&gt;
+    @{ var percent = 12.34; }
+    Percent: @percent.ToString(&quot;P&quot;)
+
+    &lt;h3&gt;DateTime Format&lt;/h3&gt;
+    Today: @DateTime.Now.ToString(&quot;D&quot;)
+
+    &lt;h3&gt;@Resources.Content.Register&lt;/h3&gt;
+    @using (Html.BeginForm(&quot;Save&quot;, &quot;Account&quot;))
+    {
+        &lt;table cellpadding=&quot;2&quot; cellspacing=&quot;2&quot; border=&quot;0&quot;&gt;
+            &lt;tr&gt;
+                &lt;td&gt;@Resources.Content.Username&lt;/td&gt;
+                &lt;td&gt;@Html.TextBoxFor(model =&gt; model.Username)&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;@Resources.Content.Password&lt;/td&gt;
+                &lt;td&gt;@Html.PasswordFor(model =&gt; model.Password)&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;@Resources.Content.FullName&lt;/td&gt;
+                &lt;td&gt;@Html.TextBoxFor(model =&gt; model.FullName)&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;@Resources.Content.Address&lt;/td&gt;
+                &lt;td&gt;@Html.TextBoxFor(model =&gt; model.Address)&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+                &lt;td colspan=&quot;2&quot;&gt;&lt;input type=&quot;submit&quot; value=&quot;@Resources.Content.Save&quot; /&gt;&lt;/td&gt;
+            &lt;/tr&gt;
+        &lt;/table&gt;
+    }
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+
+            <h3 class="page-header">Structure of ASP.NET MVC Project</h3>
+            <p><img src="images/product-multi-languages.png" class="img-thumbnail"></p>
+
+
+
+            <h3 class="page-header">Run Application</h3>
+
+            <p>Select <b>English</b> language from menu with following url: <b>http://localhost:49328/Account/ChangeLanguage?lang=en</b></p>
+            <p><b>Output</b></p>
+            <p><img src="images/product-multi-languages-en.png" class="img-thumbnail"></p>
+
+            <p>Select <b>French</b> language from menu with following url: <b>http://localhost:49328/Account/ChangeLanguage?lang=fr</b></p>
+            <p><b>Output</b></p>
+            <p><img src="images/product-multi-languages-fr.png" class="img-thumbnail"></p>
+
+            <p>Select <b>German</b> language from menu with following url: <b>http://localhost:49328/Account/ChangeLanguage?lang=de</b></p>
+            <p><b>Output</b></p>
+            <p><img src="images/product-multi-languages-de.png" class="img-thumbnail"></p>
+
+
+
+		</div>
+    </div>
+
+
+
+
+
+</div>
+
+
+</body></html>

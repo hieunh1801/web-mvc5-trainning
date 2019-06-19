@@ -1,0 +1,276 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <script src="js/jquery.min.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <link href="css/prism.css" rel="stylesheet" />
+    <script src="js/prism.js" type="text/javascript"></script>
+
+</head>
+<body>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-xs-12">
+
+            <h3 class="page-header">Create ASP.NET MVC Project</h3>
+            <p>On the Visual Studio, create a <b>ASP.NET Web Application</b> project</p>
+            <p><img src="images/project-step-1.png" class="img-thumbnail"></p>
+
+            <p>Select <b>Empty</b> Template and Core Reference is <b>MVC</b></p>
+            <p><img src="images/project-step-2.png" class="img-thumbnail"></p>
+
+
+            <h3 class="page-header">Add JQuery Library</h3>
+            <p>Create new folder named <b>Content</b>. In this folder, create new folder named <b>Js</b>. Copy JQuery file need use to this folder.
+
+
+            <h3 class="page-header">Entity Class</h3>
+            <p>In <b>Models</b> folder, create new entities class as below:</p>
+
+            <h4 class="page-header">Product</h4>
+            <p>Create new class named <b>Product.cs</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-csharp">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.ComponentModel.DataAnnotations;
+
+namespace LearnASPNETMVCWithRealApps.Models
+{
+    public class Product
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public double Price { get; set; }
+    }
+}
+</code></pre>
+
+
+			<h3 class="page-header">Create Controller</h3>
+			<p>In <b>Controllers</b> folder, create new controller named <b>DemoController.cs</b> as below:</p>
+<pre class="language-markup line-numbers"><code class="language-csharp">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using LearnASPNETMVCWithRealApps.Models;
+
+namespace LearnASPNETMVCWithRealApps.Controllers
+{
+    public class DemoController : Controller
+    {
+
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult Demo1()
+        {
+            return Content("Demo 1", "text/plain");
+        }
+
+        public ActionResult Demo2(string fullName)
+        {
+            return Content("Hi " + fullName, "text/plain");
+        }
+
+        public ActionResult Demo3()
+        {
+            Product product = new Product()
+            {
+                Id = "p01",
+                Name = "name 1",
+                Price = 4.5
+            };
+            return Json(product, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Demo4()
+        {
+            List&lt;Product&gt; products = new List&lt;Product&gt;() {
+                new Product() {
+                    Id = "p01",
+                    Name = "name 1",
+                    Price = 4.5
+                },
+                new Product() {
+                    Id = "p02",
+                    Name = "name 2",
+                    Price = 7
+                },
+                new Product() {
+                    Id = "p03",
+                    Name = "name 3",
+                    Price = 8
+                }
+            };
+            return Json(products, JsonRequestBehavior.AllowGet);
+        }
+
+    }
+}
+</code></pre>
+
+
+
+            <h3 class="page-header">Create View</h3>
+            <p>In <b>Views/Demo</b> folder, create new view named <b>Index.cshtml</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-html">@{
+    Layout = null;
+}
+
+&lt;!DOCTYPE html&gt;
+
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot; /&gt;
+    &lt;title&gt;Index&lt;/title&gt;
+    &lt;script src=&quot;~/Content/Js/jquery-1.7.1.js&quot;&gt;&lt;/script&gt;
+    &lt;script type=&quot;text/javascript&quot;&gt;
+
+        $(document).ready(function () {
+
+            $('#buttonDemo1').click(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action(&quot;Demo1&quot;, &quot;Demo&quot;)',
+                    success: function (data) {
+                        $('#result1').html(data);
+                    }
+                });
+            });
+
+            $('#buttonDemo2').click(function () {
+                var fullName = $('#fullName').val();
+                $.ajax({
+                    type: 'GET',
+                    data: { fullName: fullName },
+                    url: '@Url.Action(&quot;Demo2&quot;, &quot;Demo&quot;)',
+                    success: function (data) {
+                        $('#result2').html(data);
+                    }
+                });
+            });
+
+            $('#buttonDemo3').click(function () {
+                $.ajax({
+                    type: 'POST',
+                    dataType: &quot;json&quot;,
+                    contentType: &quot;application/json&quot;,
+                    url: '@Url.Action(&quot;Demo3&quot;, &quot;Demo&quot;)',
+                    success: function (product) {
+                        var result = 'Id: ' + product.Id + '&lt;br&gt;Name: ' + product.Name + '&lt;br&gt;Price: ' + product.Price;
+                        $('#result3').html(result);
+                    }
+                });
+            });
+
+            $('#buttonDemo4').click(function () {
+                $.ajax({
+                    type: 'POST',
+                    dataType: &quot;json&quot;,
+                    contentType: &quot;application/json&quot;,
+                    url: '@Url.Action(&quot;Demo4&quot;, &quot;Demo&quot;)',
+                    success: function (products) {
+                        var result = '';
+                        for (var i = 0; i &lt; products.length; i++) {
+                            result += 'Id: ' + products[i].Id + '&lt;br&gt;Name: ' + products[i].Name + '&lt;br&gt;Price: ' + products[i].Price + '&lt;br&gt;===================&lt;br&gt;';
+                        }
+                        $('#result4').html(result);
+                    }
+                });
+            });
+
+
+
+        });
+
+    &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    &lt;fieldset&gt;
+        &lt;legend&gt;Demo 1&lt;/legend&gt;
+        &lt;input type=&quot;button&quot; value=&quot;Demo 1&quot; id=&quot;buttonDemo1&quot; /&gt;
+        &lt;br /&gt;
+        &lt;span id=&quot;result1&quot;&gt;&lt;/span&gt;
+    &lt;/fieldset&gt;
+
+    &lt;fieldset&gt;
+        &lt;legend&gt;Demo 2&lt;/legend&gt;
+        Full Name &lt;input type=&quot;text&quot; id=&quot;fullName&quot; /&gt;
+        &lt;br /&gt;
+        &lt;input type=&quot;button&quot; value=&quot;Demo 2&quot; id=&quot;buttonDemo2&quot; /&gt;
+        &lt;br /&gt;
+        &lt;span id=&quot;result2&quot;&gt;&lt;/span&gt;
+    &lt;/fieldset&gt;
+
+    &lt;fieldset&gt;
+        &lt;legend&gt;Demo 3&lt;/legend&gt;
+        &lt;input type=&quot;button&quot; value=&quot;Demo 3&quot; id=&quot;buttonDemo3&quot; /&gt;
+        &lt;br /&gt;
+        &lt;span id=&quot;result3&quot;&gt;&lt;/span&gt;
+    &lt;/fieldset&gt;
+
+    &lt;fieldset&gt;
+        &lt;legend&gt;Demo 4&lt;/legend&gt;
+        &lt;input type=&quot;button&quot; value=&quot;Demo 4&quot; id=&quot;buttonDemo4&quot; /&gt;
+        &lt;br /&gt;
+        &lt;div id=&quot;result4&quot;&gt;&lt;/div&gt;
+    &lt;/fieldset&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+
+            <h3 class="page-header">Structure of ASP.NET MVC Project</h3>
+            <p><img src="images/project-ajax.png" class="img-thumbnail"></p>
+
+
+            <h3 class="page-header">Run Application</h3>
+
+            <p>Access <b>Index</b> action in <b>Demo</b> controller with following url: <b>http://localhost:49328/Demo/Index</b></p>
+            <p><b>Output</b></p>
+            <p><img src="images/project-ajax-input.png" class="img-thumbnail"></p>
+
+
+            <p>Click <b>Demo 1</b> button to call <b>Demo1</b> action in <b>Demo</b> controller with ajax</p>
+            <p><b>Output</b></p>
+            <p><img src="images/project-ajax-result-1.png" class="img-thumbnail"></p>
+
+
+            <p>Click <b>Demo 2</b> button to call <b>Demo2</b> action in <b>Demo</b> controller with ajax</p>
+            <p><b>Output</b></p>
+            <p><img src="images/project-ajax-result-2.png" class="img-thumbnail"></p>
+
+
+            <p>Click <b>Demo 3</b> button to call <b>Demo3</b> action in <b>Demo</b> controller with ajax</p>
+            <p><b>Output</b></p>
+            <p><img src="images/project-ajax-result-3.png" class="img-thumbnail"></p>
+
+
+            <p>Click <b>Demo 4</b> button to call <b>Demo4</b> action in <b>Demo</b> controller with ajax</p>
+            <p><b>Output</b></p>
+            <p><img src="images/project-ajax-result-4.png" class="img-thumbnail"></p>
+
+
+
+		</div>
+    </div>
+
+
+
+
+
+</div>
+
+
+</body></html>

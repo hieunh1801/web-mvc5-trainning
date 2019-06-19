@@ -1,0 +1,405 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <script src="js/jquery.min.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <link href="css/prism.css" rel="stylesheet" />
+    <script src="js/prism.js" type="text/javascript"></script>
+
+</head>
+<body>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-xs-12">
+
+            <h3 class="page-header">Create ASP.NET MVC Project</h3>
+            <p>On the Visual Studio, create a <b>ASP.NET Web Application</b> project</p>
+            <p><img src="images/project-step-1.png" class="img-thumbnail"></p>
+
+            <p>Select <b>Empty</b> Template and Core Reference is <b>MVC</b></p>
+            <p><img src="images/project-step-2.png" class="img-thumbnail"></p>
+
+
+
+            <h3 class="page-header">Install CheckBoxList.Mvc</h3>
+            <p>This package includes the extension methods for <b>CheckBoxList</b> in ASP.NET MVC. Select <b>Tools > Library Package Manager > Package Manager Console</b>, type the command as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-csharp">Install-Package MvcCheckBoxList
+</code></pre>
+
+
+
+            <h3 class="page-header">Entities Class</h3>
+            <p>In <b>Models</b> folder, create new entities class as below:</p>
+
+            <h4 class="page-header">Account Entity</h4>
+            <p>Create new class named <b>Account.cs</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-csharp">using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+
+namespace LearnASPNETMVCWithRealApps.Models
+{
+    public class Account
+    {
+        [Display(Name = "Id")]
+        public int Id
+        {
+            get;
+            set;
+        }
+
+        [Display(Name = "Username")]
+        public string Username
+        {
+            get;
+            set;
+        }
+
+        [Display(Name = "Password")]
+        public string Password
+        {
+            get;
+            set;
+        }
+
+        [Display(Name = "Description")]
+        public string Description
+        {
+            get;
+            set;
+        }
+
+        [Display(Name = "Active")]
+        public bool Active
+        {
+            get;
+            set;
+        }
+
+        [Display(Name = "Gender")]
+        public string Gender
+        {
+            get;
+            set;
+        }
+
+        [Display(Name = "Languages")]
+        public string[] Languages
+        {
+            get;
+            set;
+        }
+
+        [Display(Name = "Role")]
+        public string RoleId
+        {
+            get;
+            set;
+        }
+
+    }
+}
+</code></pre>
+
+
+            <h4 class="page-header">Language Entity</h4>
+            <p>Create new class named <b>Language.cs</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-csharp">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace LearnASPNETMVCWithRealApps.Models
+{
+    public class Language
+    {
+        public string Id
+        {
+            get;
+            set;
+        }
+
+        public string Name
+        {
+            get;
+            set;
+        }
+
+    }
+}
+</code></pre>
+
+
+            <h3 class="page-header">Create View Model</h3>
+            <p>Create new folder named <b>ViewModels</b>, create new class named <b>AccountViewModel.cs</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-csharp">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using LearnASPNETMVCWithRealApps.Models;
+using System.Web.Mvc;
+
+namespace LearnASPNETMVCWithRealApps.ViewModels
+{
+    public class AccountViewModel
+    {
+        public Account account
+        {
+            get;
+            set;
+        }
+
+        public List&lt;Language&gt; Languages
+        {
+            get;
+            set;
+        }
+
+        public List&lt;Language&gt; SelectedLanguages
+        {
+            get;
+            set;
+        }
+
+        public List&lt;SelectListItem&gt; Roles
+        {
+            get;
+            set;
+        }
+
+    }
+}
+</code></pre>
+
+
+
+			<h3 class="page-header">Create Controller</h3>
+			<p>In <b>Controllers</b> folder, create new controller named <b>AccountController.cs</b> as below:</p>
+<pre class="language-markup line-numbers"><code class="language-csharp">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using LearnASPNETMVCWithRealApps.ViewModels;
+using LearnASPNETMVCWithRealApps.Models;
+
+namespace LearnASPNETMVCWithRealApps.Controllers
+{
+    public class AccountController : Controller
+    {
+        [HttpGet]
+        public ActionResult Index()
+        {
+            AccountViewModel accountViewModel = new AccountViewModel();
+            accountViewModel.account = new Account { Id = 123, Gender = "male", Active = true };
+            accountViewModel.Languages = new List&lt;Language&gt;() {
+                new Language { Id = "r1", Name = "Language 1" },
+                new Language { Id = "r2", Name = "Language 2" },
+                new Language { Id = "r3", Name = "Language 3" },
+                new Language { Id = "r4", Name = "Language 4" },
+                new Language { Id = "r5", Name = "Language 5" }
+            };
+            accountViewModel.SelectedLanguages = new List&lt;Language&gt;(){
+                new Language { Id = "r1", Name = "Language 1" },
+                new Language { Id = "r3", Name = "Language 3" }
+            };
+            accountViewModel.Roles = new List&lt;SelectListItem&gt;() {
+                new SelectListItem { Value = "r1", Text = "Role 1" },
+                new SelectListItem { Value = "r2", Text = "Role 2" },
+                new SelectListItem { Value = "r3", Text = "Role 3" },
+                new SelectListItem { Value = "r4", Text = "Role 4" }
+            };
+            return View("Index", accountViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Register(AccountViewModel accountViewModel)
+        {
+            ViewBag.account = accountViewModel.account;
+            return View("Success");
+        }
+
+
+    }
+}
+
+</code></pre>
+
+            <h3 class="page-header">Create View</h3>
+            <p>In <b>Views/Account</b> folder, create new views as below:</p>
+
+            <h4 class="page-header">Index View</h4>
+            <p>Create new view named <b>Index.cshtml</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-html">@{
+    Layout = null;
+}
+@model LearnASPNETMVCWithRealApps.ViewModels.AccountViewModel
+
+&lt;!DOCTYPE html&gt;
+
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot; /&gt;
+    &lt;title&gt;Index&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    @using (Html.BeginForm(&quot;Register&quot;, &quot;Account&quot;))
+    {
+        &lt;table cellpadding=&quot;2&quot; cellspacing=&quot;2&quot;&gt;
+            &lt;tr&gt;
+                &lt;td&gt;@Html.LabelFor(model =&gt; model.account.Id)&lt;/td&gt;
+                &lt;td&gt;
+                    @Html.DisplayTextFor(model =&gt; model.account.Id)
+                    @Html.HiddenFor(model =&gt; model.account.Id)
+                &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;@Html.LabelFor(model =&gt; model.account.Username)&lt;/td&gt;
+                &lt;td&gt;@Html.TextBoxFor(model =&gt; model.account.Username)&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;@Html.LabelFor(model =&gt; model.account.Password)&lt;/td&gt;
+                &lt;td&gt;@Html.PasswordFor(model =&gt; model.account.Password)&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td valign=&quot;top&quot;&gt;@Html.LabelFor(model =&gt; model.account.Description)&lt;/td&gt;
+                &lt;td&gt;@Html.TextAreaFor(model =&gt; model.account.Description, new { cols = 20, rows = 5 })&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;@Html.LabelFor(model =&gt; model.account.Active)&lt;/td&gt;
+                &lt;td&gt;@Html.CheckBoxFor(model =&gt; model.account.Active)&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;@Html.LabelFor(model =&gt; model.account.Gender)&lt;/td&gt;
+                &lt;td&gt;
+                    @Html.RadioButtonFor(model =&gt; model.account.Gender, &quot;male&quot;) &lt;label&gt;Male&lt;/label&gt;
+                    &lt;br /&gt;
+                    @Html.RadioButtonFor(model =&gt; model.account.Gender, &quot;female&quot;) &lt;label&gt;Female&lt;/label&gt;
+                &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;@Html.LabelFor(model =&gt; model.account.Languages)&lt;/td&gt;
+                &lt;td&gt;
+                    @Html.CheckBoxListFor(model =&gt; model.account.Languages, model =&gt; model.Languages,
+                     language =&gt; language.Id,
+            language =&gt; language.Name,
+                        model =&gt; model.SelectedLanguages)
+                &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;@Html.LabelFor(model =&gt; model.account.RoleId)&lt;/td&gt;
+                &lt;td&gt;
+                    @Html.DropDownListFor(model =&gt; model.account.RoleId, new SelectList(Model.Roles, &quot;Value&quot;, &quot;Text&quot;))
+                &lt;/td&gt;
+            &lt;/tr&gt;
+
+            &lt;tr&gt;
+                &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+                &lt;td&gt;&lt;input type=&quot;submit&quot; value=&quot;Save&quot; /&gt;&lt;/td&gt;
+            &lt;/tr&gt;
+        &lt;/table&gt;
+    }
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+
+
+            <h4 class="page-header">Success View</h4>
+            <p>Create new view named <b>Success.cshtml</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-html">@{
+    Layout = null;
+}
+
+&lt;!DOCTYPE html&gt;
+
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot; /&gt;
+    &lt;title&gt;Success&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    &lt;h3&gt;Account Info&lt;/h3&gt;
+    &lt;table cellpadding=&quot;2&quot; cellspacing=&quot;2&quot; border=&quot;1&quot;&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Id&lt;/td&gt;
+            &lt;td&gt;@ViewBag.account.Id&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Username&lt;/td&gt;
+            &lt;td&gt;@ViewBag.account.Username&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Password&lt;/td&gt;
+            &lt;td&gt;@ViewBag.account.Password&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Description&lt;/td&gt;
+            &lt;td&gt;@ViewBag.account.Description&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Active&lt;/td&gt;
+            &lt;td&gt;@ViewBag.account.Active&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Gender&lt;/td&gt;
+            &lt;td&gt;@ViewBag.account.Gender&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Languages&lt;/td&gt;
+            &lt;td&gt;
+                @foreach (var language in ViewBag.account.Languages)
+                {
+                    @language
+                    &lt;br /&gt;
+                }
+            &lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Role Id&lt;/td&gt;
+            &lt;td&gt;@ViewBag.account.RoleId&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+
+
+            <h3 class="page-header">Structure of ASP.NET MVC Project</h3>
+            <p><img src="images/project-form-handling.png" class="img-thumbnail"></p>
+
+
+
+            <h3 class="page-header">Run Application</h3>
+            <p>Access <b>Index</b> action in <b>Account</b> controller with following url: <b>http://localhost:49328/Account/Index</b></p>
+            <p><b>Output</b></p>
+            <p><img src="images/project-form-handling-input.png" class="img-thumbnail"></p>
+
+            <p>Click <b>Save</b> button submit form to <b>Register</b> action in <b>Account</b> controller with following url: <b>http://localhost:49328/Account/Register</b></p>
+            <p><b>Output</b></p>
+            <p><img src="images/project-form-handling-output.png" class="img-thumbnail"></p>
+
+
+
+		</div>
+    </div>
+
+
+
+
+
+</div>
+
+
+</body></html>

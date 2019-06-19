@@ -1,0 +1,202 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <script src="js/jquery.min.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <link href="css/prism.css" rel="stylesheet" />
+    <script src="js/prism.js" type="text/javascript"></script>
+
+</head>
+<body>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-xs-12">
+
+            <h3 class="page-header">Create ASP.NET MVC Project</h3>
+            <p>On the Visual Studio, create a <b>ASP.NET Web Application</b> project</p>
+            <p><img src="images/project-step-1.png" class="img-thumbnail"></p>
+
+            <p>Select <b>Empty</b> Template and Core Reference is <b>MVC</b></p>
+            <p><img src="images/project-step-2.png" class="img-thumbnail"></p>
+
+
+
+			<h3 class="page-header">Create Controller</h3>
+			<p>In <b>Controllers</b> folder, create new controller named <b>DemoController.cs</b> as below:</p>
+<pre class="language-markup line-numbers"><code class="language-csharp">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace LearnASPNETMVCWithRealApps.Controllers
+{
+    public class DemoController : Controller
+    {
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult Work1()
+        {
+            return View("Work1");
+        }
+
+        public ActionResult Work2()
+        {
+            return View("Work2");
+        }
+
+        public ActionResult Work3()
+        {
+            return View("Work3");
+        }
+
+    }
+}
+</code></pre>
+
+
+
+
+            <h3 class="page-header">Create View</h3>
+            <p>In <b>Views/Demo</b> folder, create new views as below:</p>
+
+            <h4 class="page-header">Index View</h4>
+            <p>Create new view named <b>Index.cshtml</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-html">@{
+    Layout = null;
+}
+
+&lt;!DOCTYPE html&gt;
+
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot; /&gt;
+    &lt;title&gt;Index&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    @using (Html.BeginForm(FormMethod.Post))
+    {
+        &lt;input type=&quot;submit&quot; value=&quot;Work 1&quot; formaction=&quot;@Url.Action(&quot;Work1&quot;, &quot;Demo&quot;)&quot;  /&gt;
+        &lt;input type=&quot;submit&quot; value=&quot;Work 2&quot; formaction=&quot;@Url.Action(&quot;Work2&quot;, &quot;Demo&quot;)&quot;  /&gt;
+        &lt;input type=&quot;submit&quot; value=&quot;Work 3&quot; formaction=&quot;@Url.Action(&quot;Work3&quot;, &quot;Demo&quot;)&quot;  /&gt;
+    }
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+
+            <h4 class="page-header">Work1 View</h4>
+            <p>Create new view named <b>Work1.cshtml</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-html">@{
+    Layout = null;
+}
+
+&lt;!DOCTYPE html&gt;
+
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot; /&gt;
+    &lt;title&gt;Work 1&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div&gt;
+        Work 1
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+
+            <h4 class="page-header">Work2 View</h4>
+            <p>Create new view named <b>Work2.cshtml</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-html">@{
+    Layout = null;
+}
+
+&lt;!DOCTYPE html&gt;
+
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot; /&gt;
+    &lt;title&gt;Work 2&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div&gt;
+        Work 2
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+
+            <h4 class="page-header">Work3 View</h4>
+            <p>Create new view named <b>Work3.cshtml</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-html">@{
+    Layout = null;
+}
+
+&lt;!DOCTYPE html&gt;
+
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot; /&gt;
+    &lt;title&gt;Work 3&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div&gt;
+        Work 3
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+
+
+            <h3 class="page-header">Structure of ASP.NET MVC Project</h3>
+            <p><img src="images/project-multiple-submit.png" class="img-thumbnail"></p>
+
+
+
+            <h3 class="page-header">Run Application</h3>
+
+            <p>Access <b>Index</b> action in <b>Account</b> controller with following url: <b>http://localhost:9596/Demo/Index</b></p>
+            <p><b>Output</b></p>
+            <p><img src="images/project-multiple-submit-index.png" class="img-thumbnail"></p>
+
+            <p>Click <b>Work 1</b> button submit form to <b>Work1</b> action in <b>Demo</b> controller</p>
+            <p><b>Output</b></p>
+            <pre class="language-markup line-numbers"><code class="language-html">Work 1
+</code></pre>
+
+            <p>Click <b>Work 2</b> button submit form to <b>Work2</b> action in <b>Demo</b> controller</p>
+            <p><b>Output</b></p>
+            <pre class="language-markup line-numbers"><code class="language-html">Work 2
+</code></pre>
+
+            <p>Click <b>Work 3</b> button submit form to <b>Work3</b> action in <b>Demo</b> controller</p>
+            <p><b>Output</b></p>
+            <pre class="language-markup line-numbers"><code class="language-html">Work 3
+</code></pre>
+
+
+
+
+		</div>
+    </div>
+
+
+
+
+
+</div>
+
+
+</body></html>

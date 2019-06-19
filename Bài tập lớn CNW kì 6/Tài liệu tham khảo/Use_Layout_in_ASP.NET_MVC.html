@@ -1,0 +1,211 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <script src="js/jquery.min.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <link href="css/prism.css" rel="stylesheet" />
+    <script src="js/prism.js" type="text/javascript"></script>
+
+</head>
+<body>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-xs-12">
+
+            <h3 class="page-header">Create ASP.NET MVC Project</h3>
+            <p>On the Visual Studio, create a <b>ASP.NET Web Application</b> project</p>
+            <p><img src="images/project-step-1.png" class="img-thumbnail"></p>
+
+            <p>Select <b>Empty</b> Template and Core Reference is <b>MVC</b></p>
+            <p><img src="images/project-step-2.png" class="img-thumbnail"></p>
+
+
+
+            <h3 class="page-header">Create Css File</h3>
+            <p>Create new folder named <b>Content</b>. In this folder, create new folder named <b>Css</b>. Create new css file named <b>Style.css</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-css">.format {
+    color: red;
+}
+</code></pre>
+
+
+
+
+            <h3 class="page-header">Create Layout Page</h3>
+            <p>In <b>Views</b> folder, create new folder named <b>Shared</b>. In this folder, create <b>MVC 5 Layout Page (Razor)</b> named <b>_MyLayoutPage.cshtml</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-html">&lt;!DOCTYPE html&gt;
+
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot; /&gt;
+    &lt;title&gt;@ViewBag.Title&lt;/title&gt;
+    @RenderSection(&quot;head&quot;, false)
+&lt;/head&gt;
+&lt;body&gt;
+
+    &lt;a href=&quot;@Url.Action(&quot;Index&quot;, &quot;Home&quot;)&quot;&gt;Home&lt;/a&gt; |
+    &lt;a href=&quot;@Url.Action(&quot;Index&quot;, &quot;AboutUs&quot;)&quot;&gt;About Us&lt;/a&gt; |
+    &lt;a href=&quot;@Url.Action(&quot;Index&quot;, &quot;News&quot;)&quot;&gt;News&lt;/a&gt;
+    &lt;br /&gt;&lt;br /&gt;
+    @RenderBody()
+    &lt;br /&gt;&lt;br /&gt;
+    Copyright 2018
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+
+
+
+			<h3 class="page-header">Create Controller</h3>
+            <p>In <b>Controllers</b> folder, create new controllers as below:</p>
+
+            <h4 class="page-header">Home Controller</h4>
+            <p>Create new controller named <b>HomeController.cs</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-csharp">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace LearnASPNETMVCWithRealApps.Controllers
+{
+    public class HomeController : Controller
+    {
+        public ActionResult Index()
+        {
+            return View();
+        }
+    }
+}
+</code></pre>
+
+
+            <h4 class="page-header">AboutUs Controller</h4>
+            <p>Create new controller named <b>AboutUsController.cs</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-csharp">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace LearnASPNETMVCWithRealApps.Controllers
+{
+    public class AboutUsController : Controller
+    {
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+    }
+}
+</code></pre>
+
+
+            <h4 class="page-header">News Controller</h4>
+            <p>Create new controller named <b>NewsController.cs</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-csharp">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace LearnASPNETMVCWithRealApps.Controllers
+{
+    public class NewsController : Controller
+    {
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+    }
+}
+</code></pre>
+
+
+
+
+            <h3 class="page-header">Create View</h3>
+            <p>In <b>Views</b> folder, create new views as below:</p>
+
+            <h4 class="page-header">Home Views</h4>
+            <p>In <b>Views/Home</b> folder, create new view named <b>Index.cshtml</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-html">@{
+    ViewBag.Title = &quot;Index&quot;;
+    Layout = &quot;~/Views/Shared/_MyLayoutPage.cshtml&quot;;
+}
+
+&lt;h2&gt;Home Page&lt;/h2&gt;
+</code></pre>
+
+
+            <h4 class="page-header">AboutUs Views</h4>
+            <p>In <b>Views/AboutUs</b> folder, create new view named <b>Index.cshtml</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-html">@{
+    ViewBag.Title = &quot;Index&quot;;
+    Layout = &quot;~/Views/Shared/_MyLayoutPage.cshtml&quot;;
+}
+
+@section head {
+    &lt;link href=&quot;~/Content/Css/Style.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;
+}
+
+&lt;h2 class=&quot;format&quot;&gt;About Us Page&lt;/h2&gt;
+</code></pre>
+
+
+            <h4 class="page-header">News Views</h4>
+            <p>In <b>Views/News</b> folder, create new view named <b>Index.cshtml</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-html">@{
+    ViewBag.Title = &quot;Index&quot;;
+    Layout = &quot;~/Views/Shared/_MyLayoutPage.cshtml&quot;;
+}
+
+&lt;h2&gt;News Page&lt;/h2&gt;
+</code></pre>
+
+
+
+
+            <h3 class="page-header">Structure of ASP.NET MVC Project</h3>
+            <p><img src="images/product-layout.png" class="img-thumbnail"></p>
+
+
+
+
+            <h3 class="page-header">Run Application</h3>
+            <p>Access <b>Index</b> action in <b>Home</b> controller with following url: <b>http://localhost:49328/Home/Index</b></p>
+            <p><b>Output</b></p>
+            <p><img src="images/product-layout-home.png" class="img-thumbnail"></p>
+
+
+            <p>Access <b>Index</b> action in <b>AboutUs</b> controller with following url: <b>http://localhost:49328/AboutUs/Index</b></p>
+            <p><b>Output</b></p>
+            <p><img src="images/product-layout-about-us.png" class="img-thumbnail"></p>
+
+
+            <p>Access <b>Index</b> action in <b>News</b> controller with following url: <b>http://localhost:49328/News/Index</b></p>
+            <p><b>Output</b></p>
+            <p><img src="images/product-layout-news.png" class="img-thumbnail"></p>
+
+
+
+		</div>
+    </div>
+
+
+
+
+
+</div>
+
+
+</body></html>

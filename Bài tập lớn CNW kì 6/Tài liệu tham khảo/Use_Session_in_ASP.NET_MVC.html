@@ -1,0 +1,200 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <script src="js/jquery.min.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <link href="css/prism.css" rel="stylesheet" />
+    <script src="js/prism.js" type="text/javascript"></script>
+
+</head>
+<body>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-xs-12">
+
+            <h3 class="page-header">Create ASP.NET MVC Project</h3>
+            <p>On the Visual Studio, create a <b>ASP.NET Web Application</b> project</p>
+            <p><img src="images/project-step-1.png" class="img-thumbnail"></p>
+
+            <p>Select <b>Empty</b> Template and Core Reference is <b>MVC</b></p>
+            <p><img src="images/project-step-2.png" class="img-thumbnail"></p>
+
+
+
+            <h3 class="page-header">Entity Class</h3>
+            <p>In <b>Models</b> folder, create new entities class as below:</p>
+
+            <h4 class="page-header">Product.cs</h4>
+            <p>Create new class named <b>Product.cs</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-csharp">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace LearnASPNETMVCWithRealApps.Models
+{
+    public class Product
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public double Price { get; set; }
+    }
+}
+</code></pre>
+
+
+
+
+			<h3 class="page-header">Create Controller</h3>
+			<p>In <b>Controllers</b> folder, create new controller named <b>DemoController.cs</b> pass object to view as below:</p>
+<pre class="language-markup line-numbers"><code class="language-csharp">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using LearnASPNETMVCWithRealApps.Models;
+
+namespace LearnASPNETMVCWithRealApps.Controllers
+{
+    public class DemoController : Controller
+    {
+        [HttpGet]
+        public ActionResult Index()
+        {
+            Session["age"] = 20;
+            Session["username"] = "acc1";
+
+            // Assign Object
+            Product product = new Product()
+            {
+                Id = "p01",
+                Name = "Name 1",
+                Price = 20
+            };
+            Session["product"] = product;
+
+            // Assign Objects List
+            List&lt;Product&gt; products = new List&lt;Product&gt;() {
+                new Product()
+                {
+                    Id = "p01",
+                    Name = "Name 1",
+                    Price = 20
+                },
+                new Product()
+                {
+                    Id = "p02",
+                    Name = "Name 2",
+                    Price = 21
+                },
+                new Product()
+                {
+                    Id = "p03",
+                    Name = "Name 3",
+                    Price = 22
+                }
+            };
+            Session["products"] = products;
+            return View();
+        }
+
+    }
+}
+</code></pre>
+
+            <h3 class="page-header">Create View</h3>
+            <p>In <b>Views/Demo</b> folder, create new view named <b>Index.cshtml</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-html">@{
+    Layout = null;
+}
+
+@using LearnASPNETMVCWithRealApps.Models;
+
+&lt;!DOCTYPE html&gt;
+
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot; /&gt;
+    &lt;title&gt;Index&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    &lt;h3&gt;Single Values&lt;/h3&gt;
+    &lt;table border=&quot;1&quot; cellpadding=&quot;2&quot; cellspacing=&quot;2&quot;&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Age&lt;/td&gt;
+            &lt;td&gt;@Session[&quot;age&quot;]&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Username&lt;/td&gt;
+            &lt;td&gt;@Session[&quot;username&quot;]&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/table&gt;
+
+    @{ var product = (Product)Session[&quot;product&quot;]; }
+    &lt;h3&gt;Product Information&lt;/h3&gt;
+    &lt;table border=&quot;1&quot; cellpadding=&quot;2&quot; cellspacing=&quot;2&quot;&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Id&lt;/td&gt;
+            &lt;td&gt;@product.Id&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Name&lt;/td&gt;
+            &lt;td&gt;@product.Name&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Price&lt;/td&gt;
+            &lt;td&gt;@product.Price&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/table&gt;
+
+    @{ var products = (List&lt;Product&gt;)Session[&quot;products&quot;]; }
+    &lt;h3&gt;Products List&lt;/h3&gt;
+    &lt;table border=&quot;1&quot; cellpadding=&quot;2&quot; cellspacing=&quot;2&quot;&gt;
+        &lt;tr&gt;
+            &lt;th&gt;Id&lt;/th&gt;
+            &lt;th&gt;Name&lt;/th&gt;
+            &lt;th&gt;Price&lt;/th&gt;
+        &lt;/tr&gt;
+        @foreach (var p in products)
+        {
+            &lt;tr&gt;
+                &lt;td&gt;@p.Id&lt;/td&gt;
+                &lt;td&gt;@p.Name&lt;/td&gt;
+                &lt;td&gt;@p.Price&lt;/td&gt;
+            &lt;/tr&gt;
+        }
+    &lt;/table&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+
+            <h3 class="page-header">Structure of ASP.NET MVC Project</h3>
+            <p><img src="images/project-session.png" class="img-thumbnail"></p>
+
+
+            <h3 class="page-header">Run Application</h3>
+            <p>Access <b>Index</b> action in <b>Demo</b> controller with following url: <b>http://localhost:49328/Demo/Index</b></p>
+            <p><b>Output</b></p>
+            <p><img src="images/project-session-ouput.png" class="img-thumbnail"></p>
+
+
+
+		</div>
+    </div>
+
+
+
+
+
+</div>
+
+
+</body></html>

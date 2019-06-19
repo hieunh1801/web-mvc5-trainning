@@ -1,0 +1,255 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <script src="js/jquery.min.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <link href="css/prism.css" rel="stylesheet" />
+    <script src="js/prism.js" type="text/javascript"></script>
+
+</head>
+<body>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-xs-12">
+
+            <h3 class="page-header">Create ASP.NET MVC Project</h3>
+            <p>On the Visual Studio, create a <b>ASP.NET Web Application</b> project</p>
+            <p><img src="images/project-step-1.png" class="img-thumbnail"></p>
+
+            <p>Select <b>Empty</b> Template and Core Reference is <b>MVC</b></p>
+            <p><img src="images/project-step-2.png" class="img-thumbnail"></p>
+
+
+            <h3 class="page-header">Install Captcha Library</h3>
+            <p>Select <b>References</b> in project, right click and select <b>Manage NuGet Packages</b></p>
+            <p><img src="images/project-captcha-add-lib-1.png" class="img-thumbnail"></p>
+
+            <p>In <b>Manage NuGet Packages</b>, search with <b>Captcha</b> keyword. Select <b>CaptchaMVC.MVC5</b> library and install</p>
+            <p><img src="images/project-captcha-add-lib-2.png" class="img-thumbnail"></p>
+            <p><img src="images/project-captcha-add-lib-3.png" class="img-thumbnail"></p>
+
+
+
+            <h3 class="page-header">Entity Class</h3>
+            <p>In <b>Models</b> folder, create new entities class as below:</p>
+
+            <h4 class="page-header">Account</h4>
+            <p>Create new class named <b>Account.cs</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-csharp">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.ComponentModel.DataAnnotations;
+
+namespace LearnASPNETMVCWithRealApps.Models
+{
+    public class Account
+    {
+        [Required]
+        public string Username { get; set; }
+
+        [Required]
+        public string Password { get; set; }
+
+        [Required]
+        public string FullName { get; set; }
+    }
+}
+</code></pre>
+
+
+
+			<h3 class="page-header">Create Controller</h3>
+			<p>In <b>Controllers</b> folder, create new controller named <b>AccountController.cs</b> as below:</p>
+<pre class="language-markup line-numbers"><code class="language-csharp">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using CaptchaMvc.HtmlHelpers;
+using LearnASPNETMVCWithRealApps.Models;
+
+namespace LearnASPNETMVCWithRealApps.Controllers
+{
+    public class AccountController : Controller
+    {
+
+        public ActionResult Index()
+        {
+            var account = new Account();
+            return View("Index", account);
+        }
+
+        [HttpPost]
+        public ActionResult Save(Account account)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Index", account);
+            }
+            else
+            {
+                if (!this.IsCaptchaValid(""))
+                {
+                    ViewBag.error = "Invalid Captcha";
+                    return View("Index", account);
+                }
+                else
+                {
+                    ViewBag.account = account;
+                    return View("Success");
+                }
+            }
+        }
+
+    }
+}
+</code></pre>
+
+
+
+
+            <h3 class="page-header">Create View</h3>
+            <p>In <b>Views/Account</b> folder, create new views as below:</p>
+
+            <h4 class="page-header">Index View</h4>
+            <p>Create new view named <b>Index.cshtml</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-html">@{
+    Layout = null;
+}
+
+@using CaptchaMvc.HtmlHelpers;
+@model LearnASPNETMVCWithRealApps.Models.Account
+
+&lt;!DOCTYPE html&gt;
+
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot; /&gt;
+    &lt;title&gt;Index&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    @using (Html.BeginForm(&quot;Save&quot;, &quot;Account&quot;, FormMethod.Post))
+    {
+        &lt;table&gt;
+            &lt;tr&gt;
+                &lt;td&gt;Username&lt;/td&gt;
+                &lt;td&gt;@Html.TextBoxFor(model =&gt; model.Username)&lt;/td&gt;
+                &lt;td&gt;
+                    @Html.ValidationMessageFor(model =&gt; model.Username)
+                &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;Password&lt;/td&gt;
+                &lt;td&gt;@Html.PasswordFor(model =&gt; model.Password)&lt;/td&gt;
+                &lt;td&gt;
+                    @Html.ValidationMessageFor(model =&gt; model.Password)
+                &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;Full Name&lt;/td&gt;
+                &lt;td&gt;@Html.TextBoxFor(model =&gt; model.FullName)&lt;/td&gt;
+                &lt;td&gt;
+                    @Html.ValidationMessageFor(model =&gt; model.FullName)
+                &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+                &lt;td&gt;
+                    @Html.Captcha(5)
+                    &lt;br /&gt;
+                    @ViewBag.error
+                &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+                &lt;td&gt;&lt;input type=&quot;submit&quot; value=&quot;Save&quot; /&gt;&lt;/td&gt;
+            &lt;/tr&gt;
+        &lt;/table&gt;
+    }
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+
+            <h4 class="page-header">Success View</h4>
+            <p>Create new view named <b>Success.cshtml</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-html">@{
+    Layout = null;
+}
+
+&lt;!DOCTYPE html&gt;
+
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot; /&gt;
+    &lt;title&gt;Success&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    &lt;h3&gt;Account Info&lt;/h3&gt;
+    &lt;table border=&quot;1&quot; cellpadding=&quot;2&quot; cellspacing=&quot;2&quot;&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Username&lt;/td&gt;
+            &lt;td&gt;@ViewBag.account.Username&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Password&lt;/td&gt;
+            &lt;td&gt;@ViewBag.account.Password&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Full Name&lt;/td&gt;
+            &lt;td&gt;@ViewBag.account.FullName&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/table&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+
+
+
+            <h3 class="page-header">Structure of ASP.NET MVC Project</h3>
+            <p><img src="images/project-captcha.png" class="img-thumbnail"></p>
+
+
+
+            <h3 class="page-header">Run Application</h3>
+
+            <p>Access <b>Index</b> action in <b>Account</b> controller with following url: <b>http://localhost:9596/Account/Index</b></p>
+            <p><b>Output</b></p>
+            <p><img src="images/project-captcha-input.png" class="img-thumbnail"></p>
+
+            <p>Click <b>Save</b> button submit form to <b>Save</b> action in <b>Account</b> controller with some instances of invalid data as below:</p>
+            <p><b>Case 1</b></p>
+            <p><img src="images/project-captcha-error-1.png" class="img-thumbnail"></p>
+            <p><b>Case 2</b></p>
+            <p><img src="images/project-captcha-error-2.png" class="img-thumbnail"></p>
+
+            <p>Click <b>Save</b> button submit form to <b>Save</b> action in <b>Account</b> controller with valid data</p>
+            <p><b>Output</b></p>
+            <p><img src="images/project-captcha-success-1.png" class="img-thumbnail"></p>
+            <p><img src="images/project-captcha-success-2.png" class="img-thumbnail"></p>
+
+
+
+
+		</div>
+    </div>
+
+
+
+
+
+</div>
+
+
+</body></html>

@@ -1,0 +1,181 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <script src="js/jquery.min.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <link href="css/prism.css" rel="stylesheet" />
+    <script src="js/prism.js" type="text/javascript"></script>
+
+</head>
+<body>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-xs-12">
+
+            <h3 class="page-header">Create ASP.NET MVC Project</h3>
+            <p>On the Visual Studio, create a <b>ASP.NET Web Application</b> project</p>
+            <p><img src="images/project-step-1.png" class="img-thumbnail"></p>
+
+            <p>Select <b>Empty</b> Template and Core Reference is <b>MVC</b></p>
+            <p><img src="images/project-step-2.png" class="img-thumbnail"></p>
+
+
+            <h3 class="page-header">Create Map Route</h3>
+            <p>Open <b>RouteConfig.cs</b> file in <b>App_Start</b> folder, add new map route as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-csharp">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Routing;
+
+namespace LearnASPNETMVCWithRealApps
+{
+    public class RouteConfig
+    {
+        public static void RegisterRoutes(RouteCollection routes)
+        {
+            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            routes.MapRoute(
+                name: "Default",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Demo", action = "Index", id = UrlParameter.Optional }
+            );
+
+            // New Map Route
+            routes.MapRoute(
+                name: "Default2",
+                url: "{controller}/{action}/{id}/{id2}",
+                defaults: new { controller = "Demo", action = "Index", id = UrlParameter.Optional, id2 = UrlParameter.Optional }
+            );
+        }
+    }
+}
+</code></pre>
+
+
+
+
+			<h3 class="page-header">Create Controller</h3>
+			<p>In <b>Controllers</b> folder, create new controller named <b>DemoController.cs</b> as below:</p>
+<pre class="language-markup line-numbers"><code class="language-csharp">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace LearnASPNETMVCWithRealApps.Controllers
+{
+    public class DemoController : Controller
+    {
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult Demo1(string id)
+        {
+            ViewBag.result = id;
+            return View("Result");
+        }
+
+        public ActionResult Demo2(int id, int id2)
+        {
+            ViewBag.result = id + id2;
+            return View("Result");
+        }
+    }
+}
+</code></pre>
+
+
+
+            <h3 class="page-header">Create View</h3>
+            <p>In <b>Views/Demo</b> folder, create new views as below:</p>
+
+            <h4 class="page-header">Index View</h4>
+            <p>Create new view named <b>Index.cshtml</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-html">@{
+    Layout = null;
+}
+
+&lt;!DOCTYPE html&gt;
+
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot; /&gt;
+    &lt;title&gt;Index&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    &lt;h3&gt;URL Parameters&lt;/h3&gt;
+    &lt;a href=&quot;@Url.Action(&quot;Demo1&quot;, &quot;Demo&quot;, new { id = &quot;p01&quot; })&quot;&gt;One Parameter&lt;/a&gt;
+    &lt;br /&gt;
+    &lt;a href=&quot;@Url.Action(&quot;Demo2&quot;, &quot;Demo&quot;, new { id = 4, id2 = 7 })&quot;&gt;Multiple Parameters&lt;/a&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+
+            <h4 class="page-header">Result View</h4>
+            <p>Create new view named <b>Result.cshtml</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-html">@{
+    Layout = null;
+}
+
+&lt;!DOCTYPE html&gt;
+
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot; /&gt;
+    &lt;title&gt;Result&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    &lt;h3&gt;Result View&lt;/h3&gt;
+    Id: @ViewBag.id
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+
+
+            <h3 class="page-header">Structure of ASP.NET MVC Project</h3>
+            <p><img src="images/project-url-parameter.png" class="img-thumbnail"></p>
+
+
+
+            <h3 class="page-header">Run Application</h3>
+            <p>Access <b>Index</b> action in <b>Demo</b> controller with following url: <b>http://localhost:49328/Demo/Index</b></p>
+            <p><b>Output</b></p>
+            <p><img src="images/project-url-parameter-input.png" class="img-thumbnail"></p>
+
+            <p>Access <b>Demo1</b> action in <b>Demo</b> controller with following url: <b>http://localhost:49328/Demo/Demo1/p01</b></p>
+            <p><b>Output</b></p>
+            <p><img src="images/project-url-parameter-output-1.png" class="img-thumbnail"></p>
+
+
+            <p>Access <b>Demo2</b> action in <b>Demo</b> controller with following url: <b>http://localhost:49328/Demo/Demo2/4?id2=7</b></p>
+            <p><b>Output</b></p>
+            <p><img src="images/project-url-parameter-output-2.png" class="img-thumbnail"></p>
+
+
+		</div>
+    </div>
+
+
+
+
+
+</div>
+
+
+</body></html>

@@ -15,21 +15,21 @@ namespace ShoesShop.Areas.Admin.Models.Functions
         }
 
         // 1: GetAll
-        public List<Shoes> GetAll()
+        public List<Sho> GetAll()
         {
             var list = context.Shoes.ToList();
             return list;
         }
 
         // 2: GetById
-        public Shoes GetById(int idShoes)
+        public Sho GetById(int idShoes)
         {
             var shoes = context.Shoes.Single(item => item.idShoes == idShoes);
             return shoes;
         }
 
         // 3: Insert
-        public bool Insert(Shoes shoes)
+        public bool Insert(Sho shoes)
         {
             var entry = context.Shoes.Single(item => item.idShoes == shoes.idShoes);
             if (entry != null) return false;
@@ -39,7 +39,7 @@ namespace ShoesShop.Areas.Admin.Models.Functions
         }
 
         // 4: Update
-        public bool Update(Shoes shoes)
+        public bool Update(Sho shoes)
         {
             var entry = context.Shoes.Single(item => item.idShoes == shoes.idShoes);
             if (entry == null) return false;
@@ -53,7 +53,7 @@ namespace ShoesShop.Areas.Admin.Models.Functions
         }
 
         // 5: Delete
-        public bool Delete(Shoes shoes)
+        public bool Delete(Sho shoes)
         {
             var entry = context.Shoes.Single(item => item.idShoes == shoes.idShoes);
             if (entry == null) return false;

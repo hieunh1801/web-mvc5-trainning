@@ -1,0 +1,253 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <script src="js/jquery.min.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <link href="css/prism.css" rel="stylesheet" />
+    <script src="js/prism.js" type="text/javascript"></script>
+
+</head>
+<body>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-xs-12">
+
+            <h3 class="page-header">Create ASP.NET MVC Project</h3>
+            <p>On the Visual Studio, create a <b>ASP.NET Web Application</b> project</p>
+            <p><img src="images/project-step-1.png" class="img-thumbnail"></p>
+
+            <p>Select <b>Empty</b> Template and Core Reference is <b>MVC</b></p>
+            <p><img src="images/project-step-2.png" class="img-thumbnail"></p>
+
+
+
+
+            <h3 class="page-header">Entities Class</h3>
+            <p>In <b>Models</b> folder, create new entities class as below:</p>
+
+            <h4 class="page-header">Account Entity</h4>
+            <p>Create new class named <b>Account.cs</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-csharp">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace LearnASPNETMVCWithRealApps.Models
+{
+    public class Account
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public int Age { get; set; }
+        public string Email { get; set; }
+        public string Website { get; set; }
+    }
+}
+</code></pre>
+
+
+
+
+			<h3 class="page-header">Create Controller</h3>
+			<p>In <b>Controllers</b> folder, create new controller named <b>AccountController.cs</b> as below:</p>
+<pre class="language-markup line-numbers"><code class="language-csharp">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using LearnASPNETMVCWithRealApps.Models;
+
+namespace LearnASPNETMVCWithRealApps.Controllers
+{
+    public class AccountController : Controller
+    {
+        public ActionResult Index()
+        {
+            return View("Index");
+        }
+
+        [HttpPost]
+        public ActionResult Save(Account account)
+        {
+            ViewBag.account = account;
+            return View("Success");
+        }
+    }
+}
+</code></pre>
+
+
+
+            <h3 class="page-header">Create View</h3>
+            <p>In <b>Views/Account</b> folder, create new views as below:</p>
+
+            <h4 class="page-header">Index View</h4>
+            <p>Create new view named <b>Index.cshtml</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-html">@{
+    Layout = null;
+}
+
+@model LearnASPNETMVCWithRealApps.Models.Account
+
+&lt;!DOCTYPE html&gt;
+
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot; /&gt;
+    &lt;title&gt;Index&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    &lt;h3&gt;Account Register&lt;/h3&gt;
+    @using (Html.BeginForm(&quot;Save&quot;, &quot;Account&quot;, FormMethod.Post))
+    {
+        &lt;table&gt;
+            &lt;tr&gt;
+                &lt;td&gt;Username&lt;/td&gt;
+                &lt;td&gt;
+                    @Html.TextBoxFor(model =&gt; model.Username, new
+                    {
+                       required = &quot;required&quot;,
+                       minlength = &quot;3&quot;,
+                       maxlength = &quot;10&quot;
+                    })
+                &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;Password&lt;/td&gt;
+                &lt;td&gt;
+                    @Html.PasswordFor(model =&gt; model.Password, new
+                    {
+                       required = &quot;required&quot;,
+                       pattern = @&quot;(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}&quot;,
+                       title = &quot;Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters&quot;
+                    })
+                &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;Age&lt;/td&gt;
+                &lt;td&gt;
+                    @Html.TextBoxFor(model =&gt; model.Age, new
+                    {
+                       type = &quot;number&quot;,
+                       required = &quot;required&quot;,
+                       min = &quot;18&quot;,
+                       max = &quot;120&quot;
+                    })
+                &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;Email&lt;/td&gt;
+                &lt;td&gt;
+                    @Html.TextBoxFor(model =&gt; model.Email, new
+                    {
+                       type = &quot;email&quot;,
+                       required = &quot;required&quot;
+                    })
+                &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;Website&lt;/td&gt;
+                &lt;td&gt;
+                    @Html.TextBoxFor(model =&gt; model.Website, new
+                    {
+                        type = &quot;url&quot;
+                    })
+                &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+                &lt;td&gt;&lt;input type=&quot;submit&quot; value=&quot;Save&quot; /&gt;&lt;/td&gt;
+            &lt;/tr&gt;
+        &lt;/table&gt;
+    }
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+
+
+            <h4 class="page-header">Success View</h4>
+            <p>Create new view named <b>Success.cshtml</b> as below:</p>
+            <pre class="language-markup line-numbers"><code class="language-html">@{
+    Layout = null;
+}
+
+&lt;!DOCTYPE html&gt;
+
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot; /&gt;
+    &lt;title&gt;Success&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    &lt;h3&gt;Account Info&lt;/h3&gt;
+    &lt;table cellpadding=&quot;2&quot; cellspacing=&quot;2&quot; border=&quot;1&quot;&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Username&lt;/td&gt;
+            &lt;td&gt;@ViewBag.account.Username&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Password&lt;/td&gt;
+            &lt;td&gt;@ViewBag.account.Password&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Age&lt;/td&gt;
+            &lt;td&gt;@ViewBag.account.Age&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Email&lt;/td&gt;
+            &lt;td&gt;@ViewBag.account.Email&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Website&lt;/td&gt;
+            &lt;td&gt;@ViewBag.account.Website&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+
+
+            <h3 class="page-header">Structure of ASP.NET MVC Project</h3>
+            <p><img src="images/project-validation-html5.png" class="img-thumbnail"></p>
+
+
+
+            <h3 class="page-header">Run Application</h3>
+
+            <p>Access <b>Index</b> action in <b>Account</b> controller with following url: <b>http://localhost:9596/Account/Index</b></p>
+            <p><b>Output</b></p>
+            <p><img src="images/project-validation-html5-input.png" class="img-thumbnail"></p>
+
+            <p>Click <b>Save</b> button submit form to <b>Save</b> action in <b>Account</b> controller with some instances of invalid data as below:</p>
+            <p><b>Case 1</b></p>
+            <p><img src="images/project-validation-html5-error-1.png" class="img-thumbnail"></p>
+            <p><b>Case 2</b></p>
+            <p><img src="images/project-validation-html5-error-2.png" class="img-thumbnail"></p>
+
+            <p>Click <b>Save</b> button submit form to <b>Save</b> action in <b>Account</b> controller with valid data</p>
+            <p><b>Output</b></p>
+            <p><img src="images/project-validation-html5-success.png" class="img-thumbnail"></p>
+
+
+
+		</div>
+    </div>
+
+
+
+
+
+</div>
+
+
+</body></html>
