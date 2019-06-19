@@ -19,9 +19,15 @@ namespace ShoesShop.Areas.Admin.Models.Entities
         public int idAccount { get; set; }
 
         [StringLength(50)]
+        [Required]
+        [MinLength(3)]
+        [MaxLength(10)]
         public string userName { get; set; }
 
         [StringLength(50)]
+        [Required]
+        [MinLength(3)]
+        [MaxLength(50)]
         public string password { get; set; }
 
         [StringLength(20)]

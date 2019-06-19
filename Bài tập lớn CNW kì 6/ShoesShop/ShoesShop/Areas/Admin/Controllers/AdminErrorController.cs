@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using ShoesShop.Areas.Admin.Security;
+
 namespace ShoesShop.Areas.Admin.Controllers
 {
-    public class AdminHomeController : Controller
+    public class AdminErrorController : Controller
     {
-        // GET: Admin/Home
-        [MyAdminAuthorize(Roles = "admin")]
+        // GET: Admin/AdminError
         public ActionResult Index()
         {
             return View();

@@ -130,6 +130,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminAccountController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminErrorController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminHomeController.cs" />
     <Compile Include="Areas\Admin\Models\Entities\Account.cs" />
     <Compile Include="Areas\Admin\Models\Entities\Cart.cs" />
@@ -150,6 +151,8 @@
     <Compile Include="Areas\Admin\Models\Funtions\SizeFunction.cs" />
     <Compile Include="Areas\Admin\Models\Funtions\VendorFunction.cs" />
     <Compile Include="Areas\Admin\Models\ViewModals\AccountModal.cs" />
+    <Compile Include="Areas\Admin\Security\CustomAdminPrincipal.cs" />
+    <Compile Include="Areas\Admin\Security\MyAdminAuthorizeAttribute.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -157,6 +160,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Admin\assets\css\bootstrap.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -171,6 +175,10 @@
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\AdminHome\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\AdminAccount\Login.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_LayoutNull.cshtml" />
+    <Content Include="Areas\Admin\Views\AdminAccount\Logout.cshtml" />
+    <Content Include="Areas\Admin\Views\AdminError\Index.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -199,7 +207,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Views\AdminAccount\" />
+    <Folder Include="Areas\Admin\assets\js\" />
     <Folder Include="Models\" />
     <Folder Include="Security\" />
   </ItemGroup>

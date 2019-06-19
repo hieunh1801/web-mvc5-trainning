@@ -1,0 +1,77 @@
+﻿@{
+    ViewBag.Title = "Logout";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutNull.cshtml";
+}
+
+@model ShoesShop.Areas.Admin.Models.Entities.Account
+<style>
+    .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    .text-center {
+        display: flex;
+        flex: 1;
+        justify-content: center;
+        align-items: center;
+        margin: auto;
+        flex-direction: column;
+        padding-top: 100px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        width: 300px;
+    }
+
+    .label {
+        display: flex;
+        align-self: flex-start;
+    }
+
+    .txtLogin {
+        margin-bottom: 30px;
+    }
+
+    .field-validation-error {
+        display: flex;
+        align-self: flex-start;
+        color: #721c24;
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+        border-radius: 5px;
+        margin-top: 5px;
+        padding: 2px 5px;
+    }
+
+    .btnLogin {
+        width: 300px;
+    }
+</style>
+
+
+<h1 class="txtLogin">Login to Admin</h1>
+@using (Html.BeginForm("Login", "AdminAccount"))
+{
+
+    <form class="form-signin">
+        <div class="form-group">
+            <label class="label">Username</label>
+            @Html.TextBoxFor(model => model.userName, new { @class = "form-control", @id = "txtName" })
+            @Html.ValidationMessageFor(model => model.userName)
+        </div>
+        <div class="form-group">
+            <label class="label">Password</label>
+            @Html.PasswordFor(model => model.password, new { @class = "form-control password", @id = "txtPassword" })
+            @Html.ValidationMessageFor(model => model.password)
+        </div>
+        <input type="submit" value="Login" class="btn btn-dark btnLogin" />
+    </form>
+}
+
