@@ -1,1 +1,0 @@
-# Lesson 3 - Pass Object List from Controller to View

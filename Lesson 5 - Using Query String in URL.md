@@ -1,1 +1,0 @@
-# Lesson 5 - Using Query String in URL
