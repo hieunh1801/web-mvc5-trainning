@@ -203,3 +203,19 @@ BEGIN
   VALUES(@idCustomer, @idShoesDetail, @quantity)
 END
 GO
+
+----------------------------- Store Procedure Search ---------------------
+
+CREATE PROCEDURE SP_Shoe_Search
+	@searchValue NVARCHAR(100)
+AS
+BEGIN
+	SELECT * FROM Shoes
+	WHERE name LIKE N'%' + @searchValue + N'%'
+	OR idShoes LIKE N'%' + @searchValue + N'%'
+	OR description LIKE N'%' + @searchValue + N'%'
+	OR defaultUrlImage LIKE N'%' + @searchValue + N'%'
+	OR idCategory LIKE N'%' + @searchValue + N'%'
+	OR idVendor LIKE N'%' + @searchValue + N'%'
+	OR price LIKE N'%' + @searchValue + N'%'
+END

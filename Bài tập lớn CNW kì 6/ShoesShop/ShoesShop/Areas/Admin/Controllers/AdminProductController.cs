@@ -38,7 +38,16 @@ namespace ShoesShop.Areas.Admin.Controllers
         {
             ShoesFunction shoesFunction = new ShoesFunction();
             List<Sho> listShoes = shoesFunction.Search(searchValue);
-            var result = listShoes.Select(item => new { name = item.name});
+            var result = listShoes.Select(item => new {
+                item.name,
+                item.description,
+                item.defaultUrlImage,
+                item.idCategory,
+                item.idShoes,
+                item.idVendor,
+                item.price
+                
+            });
             
             return Json(result, JsonRequestBehavior.AllowGet);
             

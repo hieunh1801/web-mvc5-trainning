@@ -39,10 +39,22 @@
                 url: url,
                 success: function (data) {
                     console.log(data)
-                    $("#contentOfTable").hide();
+                    $("#contentOfTable").empty();
+                    $("#serchResult").empty();
                     $.each(data, function (index) {
+
                         console.log(data[index])
-                        $("#serchResult").append("<div> "+ data[index].name +"</div>");
+                        $("#serchResult").append(
+                           ` <tr>
+                                <td scope="row">${data[index].idShoes}</td>
+                                <td>${data[index].name}</td>
+                                <td>${data[index].description}</td>
+                                <td>${data[index].idCategory}</td>
+                                <td>${data[index].idVendor}</td>
+                                <td>${data[index].price}</td>
+                                <th><a class="txtLink" href="#">Edit</a> | <a class="txtLink" href="#">Delete</a></th>
+                            </tr>`
+                        );
                     })
                 }
             })
@@ -51,23 +63,6 @@
 </script>
 <script type="text/javascript">
 
-
-@*
-$(document).ready(function () {
-    $('#btnSearch').click(function () {
-
-        $.ajax({
-            type: 'POST',
-            dataType: "json",
-            contentType: "application/json",
-            url: '@Url.Action("Demo3", "Demo")',
-            success: function (product) {
-                var result = 'Id: ' + product.Id + '<br>Name: ' + product.Name + '<br>Price: ' + product.Price;
-                $('#result3').html(result);
-            }
-        });
-});
-*@
 </script>
 <div class="container">
     <div class="searchBarContainer">

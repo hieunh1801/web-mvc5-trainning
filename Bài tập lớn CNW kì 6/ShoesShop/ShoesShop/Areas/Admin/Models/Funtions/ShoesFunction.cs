@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using ShoesShop.Areas.Admin.Models.Entities;
@@ -66,8 +68,12 @@ namespace ShoesShop.Areas.Admin.Models.Functions
         public List<Sho> Search(string searchValue)
         {
             /* Step 1: Find entry in context by using Where()*/// = context.Vendors.Where(item => (item.idVendor.ToString() == searchValue));
-            string query = "Select * from Shoes";
-            var data = context.Shoes.SqlQuery(query).ToList();
+            var parameters = new[]
+            {
+                new SqlParameter {ParameterName = "searchValue", Value = searchValue },
+            };
+
+            var data = context.Shoes.SqlQuery("SP_Shoe_Search @searchValue", parameters).ToList();
             return data;
         }
     }
