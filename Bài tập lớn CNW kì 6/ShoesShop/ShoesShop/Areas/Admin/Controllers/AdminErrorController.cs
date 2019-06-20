@@ -9,6 +9,7 @@ namespace ShoesShop.Areas.Admin.Controllers
     public class AdminErrorController : Controller
     {
         // GET: Admin/AdminError
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return View();

@@ -63,5 +63,12 @@ namespace ShoesShop.Areas.Admin.Models.Functions
         }
 
         // 6: Search
+        public List<Sho> Search(string searchValue)
+        {
+            /* Step 1: Find entry in context by using Where()*/// = context.Vendors.Where(item => (item.idVendor.ToString() == searchValue));
+            string query = "Select * from Shoes";
+            var data = context.Shoes.SqlQuery(query).ToList();
+            return data;
+        }
     }
 }

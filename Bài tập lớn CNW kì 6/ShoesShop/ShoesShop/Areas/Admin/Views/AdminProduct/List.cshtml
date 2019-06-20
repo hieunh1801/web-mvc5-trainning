@@ -1,0 +1,113 @@
+﻿
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@using ShoesShop.Areas.Admin.Models.Entities
+@model IEnumerable<Sho>
+<style>
+    .txtLink {
+        color: red;
+    }
+
+    .searchBarContainer {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 20px 0px;
+    }
+
+    .form-control {
+        width: 500px;
+        margin-right: 20px;
+    }
+
+    .btnSearch {
+        width: 150px;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        $("#btnSearch").click(function () {
+            console.log("Clisadkfljadsf");
+            txtSearch = $("#txtSearch").val();
+            var url = '@Url.Action("Search", "AdminProduct")' + '?searchValue='+ txtSearch;
+            jQuery.ajax({
+                type: 'POST',
+                dataType: "json",
+                contentType: "application/json",
+                url: url,
+                success: function (data) {
+                    console.log(data)
+                    $("#contentOfTable").hide();
+                    $.each(data, function (index) {
+                        console.log(data[index])
+                        $("#serchResult").append("<div> "+ data[index].name +"</div>");
+                    })
+                }
+            })
+        })
+    });
+</script>
+<script type="text/javascript">
+
+
+@*
+$(document).ready(function () {
+    $('#btnSearch').click(function () {
+
+        $.ajax({
+            type: 'POST',
+            dataType: "json",
+            contentType: "application/json",
+            url: '@Url.Action("Demo3", "Demo")',
+            success: function (product) {
+                var result = 'Id: ' + product.Id + '<br>Name: ' + product.Name + '<br>Price: ' + product.Price;
+                $('#result3').html(result);
+            }
+        });
+});
+*@
+</script>
+<div class="container">
+    <div class="searchBarContainer">
+        <input id="txtSearch" class="form-control" type="text" placeholder="Search" aria-label="Search">
+        <input id="btnSearch" type="button" value="Search" class="btn btn-dark btnLogin btnSearch" />
+    </div>
+
+    <table class="table" id="tableOfShoes">
+
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Descriptions</th>
+                <th scope="col">Id Category</th>
+                <th scope="col">Id Vendor</th>
+                <th scope="col">Price</th>
+                <th scope="col">Edit</th>
+            </tr>
+        </thead>
+        <tbody id="serchResult" />
+        <tbody id="contentOfTable">
+            
+            @{
+                foreach (Sho shoes in Model)
+                {
+                    <tr>
+                        <td scope="row">@shoes.idShoes</td>
+                        <td>@shoes.name</td>
+                        <td>@shoes.description</td>
+                        <td>@shoes.idCategory</td>
+                        <td>@shoes.idVendor</td>
+                        <td>@shoes.price $</td>
+                        <th><a class="txtLink" href="#">Edit</a> | <a class="txtLink" href="#">Delete</a></th>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+</div>
+
+

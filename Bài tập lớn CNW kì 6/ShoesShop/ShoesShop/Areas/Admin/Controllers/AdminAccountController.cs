@@ -37,7 +37,20 @@ namespace ShoesShop.Areas.Admin.Controllers
         [AllowAnonymous]
         public ActionResult Logout()
         {
-            return View();
+            Session["username"] = "";
+            Session["password"] = "";
+            Session.Clear();
+            Session.RemoveAll();
+            Session.Abandon();
+            //Response.Cache.SetExpires(DateTime.UtcNow.AddMinutes(-1)); Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.Cache.SetExpires(DateTime.Now);
+            Response.Cache.SetNoStore();
+            this.Response.Cache.SetExpires(DateTime.UtcNow.AddMinutes(-1));
+            this.Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            this.Response.Cache.SetNoStore();
+            this.Response.Clear();
+            
+            return RedirectToAction("Login");
         }
     }
 }
