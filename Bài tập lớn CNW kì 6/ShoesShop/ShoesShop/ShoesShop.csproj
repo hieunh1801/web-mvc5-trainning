@@ -165,6 +165,7 @@
     <Content Include="Areas\Admin\assets\images\icon\left-arrow.svg" />
     <Content Include="Areas\Admin\assets\images\icon\logout.png" />
     <Content Include="Areas\Admin\assets\images\icon\logout.svg" />
+    <Content Include="Areas\Admin\assets\js\bootstrap-validate.js" />
     <Content Include="Areas\Admin\assets\js\jquery.min.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -185,6 +186,8 @@
     <Content Include="Areas\Admin\Views\AdminAccount\Logout.cshtml" />
     <Content Include="Areas\Admin\Views\AdminError\Index.cshtml" />
     <Content Include="Areas\Admin\Views\AdminProduct\List.cshtml" />
+    <Content Include="Areas\Admin\Views\AdminProduct\Insert.cshtml" />
+    <Content Include="Areas\Admin\Views\AdminProduct\Update.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

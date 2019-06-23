@@ -25,15 +25,21 @@ namespace ShoesShop.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Insert()
         {
-            return View();
+            return View("Insert");
         }
 
         [HttpPost]
-        public ActionResult Insert(Sho shoes)
+        public ActionResult Insert(string name, string description, int idCategory, int idVendor, float price)
         {
-            return View();
+            ViewBag.message = "Success";
+            return View("Insert");
         }
 
+        public ActionResult Update(int id)
+        {
+            ViewBag.id = id;
+            return View();
+        }
         public ActionResult Search(string searchValue)
         {
             ShoesFunction shoesFunction = new ShoesFunction();

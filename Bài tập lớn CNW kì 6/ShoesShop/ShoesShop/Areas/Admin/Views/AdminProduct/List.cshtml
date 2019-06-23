@@ -42,7 +42,6 @@
                     $("#contentOfTable").empty();
                     $("#serchResult").empty();
                     $.each(data, function (index) {
-
                         console.log(data[index])
                         $("#serchResult").append(
                            ` <tr>
@@ -96,7 +95,7 @@
                         <td>@shoes.idCategory</td>
                         <td>@shoes.idVendor</td>
                         <td>@shoes.price $</td>
-                        <th><a class="txtLink" href="#">Edit</a> | <a class="txtLink" href="#">Delete</a></th>
+                        <th><a class="txtLink" href="~/Admin/AdminProduct/Update?id=@shoes.idShoes">Edit</a> | <a class="txtLink" href="#">Delete</a></th>
                     </tr>
                 }
             }
