@@ -20,7 +20,7 @@ namespace ShoesShop.Areas.Admin.Models.Entities
 
         [Column("color")]
         [StringLength(200)]
-        public string color1 { get; set; }
+        public string color { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ShoesDetail> ShoesDetails { get; set; }

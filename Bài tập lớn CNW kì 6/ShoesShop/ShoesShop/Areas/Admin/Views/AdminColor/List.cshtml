@@ -1,0 +1,140 @@
+﻿
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@using ShoesShop.Areas.Admin.Models.Entities
+@model IEnumerable<Color>
+<style>
+    .txtLink {
+        color: red;
+    }
+
+    .searchBarContainer {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 20px 0px;
+    }
+
+    .form-control {
+        width: 500px;
+        margin-right: 20px;
+    }
+
+    .btnSearch {
+        width: 150px;
+    }
+
+    a:hover, a:focus, a:active {
+        border: none;
+        text-decoration: none;
+    }
+</style>
+
+<div class="container">
+    <div class="searchBarContainer">
+        <input id="txtSearch" class="form-control" type="text" placeholder="Search" aria-label="Search">
+        <input id="btnSearch" type="button" value="Search" class="btn btn-dark btnLogin btnSearch" />
+    </div>
+
+    <table class="table" id="tableOfShoes">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody id="serchResult" />
+        <tbody id="contentOfTable">
+
+            @{
+                foreach (Color color in Model)
+                {
+                    <tr>
+                        <td scope="row">@color.idColor</td>
+                        <td>@color.color</td>
+                        <th><input type="button" class="btn btn-dark" href="" onclick="gotoUpdateActionUrl(@color.idColor)" value="Edit" /> | <input type="button" class="btn btn-danger" value="Delete" onclick="deleteItem(@color.idColor)" /></th>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+</div>
+
+<!-- The Modal -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalTitle">Warnning</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body" id="modalBody">
+                Are you sure to delete item ?
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer" id="modalFooter">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" id="btnAccept">Accept</button>
+                <button type="button" class="btn btn-dark" data-dismiss="modal" id="btnCancle">Cancle</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        // Search
+        $("#btnSearch").click(function () {
+            txtSearch = $("#txtSearch").val();
+            var url = '@Url.Action("Search", "AdminColor")' + '?searchValue=' + txtSearch;
+            console.log('Color');
+            jQuery.ajax({
+                type: 'POST',
+                dataType: "json",
+                contentType: "application/json",
+                url: url,
+                success: function (data) {
+                    console.log(data)
+                    $("#contentOfTable").empty();
+                    $("#serchResult").empty();
+                    $.each(data, function (index) {
+                       // console.log(data[index])
+                        $("#serchResult").append(
+                            ` <tr>
+                                <td scope="row">${data[index].idColor}</td>
+                                <td>${data[index].color}</td>
+                                <th><input type="button" class="btn btn-dark" href="" onclick="gotoUpdateActionUrl(${data[index].idColor})" value="Edit"/> | <input type="button" class="btn btn-danger" value="Delete" onclick="deleteItem(${data[index].idColor })"/></th>
+                            </tr>`
+                        );
+                    })
+                }
+            })
+        })
+        // Modal delete
+
+
+
+    });
+
+    // Delete data
+    function deleteItem(id) {
+        $("#myModal").modal('show');
+        console.log('Id of item want to delete', id);
+        $("#btnAccept").click(function () {
+            console.log('Accept delete item id: ', id);
+            // TODO: Call Ajax here to delete item with id=?
+        })
+    }
+    // Goto Url
+    function gotoUpdateActionUrl(id) {
+        console.log(id);
+        location.href = "Update?id=" + id;
+    }
+</script>

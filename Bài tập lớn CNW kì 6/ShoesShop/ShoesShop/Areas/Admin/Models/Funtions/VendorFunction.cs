@@ -77,17 +77,28 @@ namespace ShoesShop.Areas.Admin.Models.Functions
             return result > 0;
         }
 
+        //public List<Vendor> Search(string searchValue)
+        //{
+        //    /* Step 1: Find entry in context by using Where()*/// = context.Vendors.Where(item => (item.idVendor.ToString() == searchValue));
+        //    HashSet<Vendor> list = new HashSet<Vendor>();
+        //    foreach(string str in searchValue.Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries))
+        //    {
+        //        foreach (Vendor v in context.Vendors.Where(vd => vd.ToString().Contains(str)))
+        //            list.Add(v);
+        //    }
+        //    return list.ToList();
+        //}
+        // 6: Search
         public List<Vendor> Search(string searchValue)
         {
             /* Step 1: Find entry in context by using Where()*/// = context.Vendors.Where(item => (item.idVendor.ToString() == searchValue));
-            HashSet<Vendor> list = new HashSet<Vendor>();
-            foreach(string str in searchValue.Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries))
+            var parameters = new[]
             {
-                foreach (Vendor v in context.Vendors.Where(vd => vd.ToString().Contains(str)))
-                    list.Add(v);
-            }
-            return list.ToList();
-        }
+                new SqlParameter {ParameterName = "searchValue", Value = searchValue },
+            };
 
+            var data = context.Vendors.SqlQuery("SP_Vendor_Search @searchValue", parameters).ToList();
+            return data;
+        }
     }
 }

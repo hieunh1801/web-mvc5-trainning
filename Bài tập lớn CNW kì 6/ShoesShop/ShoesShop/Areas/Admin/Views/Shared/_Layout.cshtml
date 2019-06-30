@@ -12,6 +12,8 @@
     <link href="~/Areas/Admin/assets/css/bootstrap.min.css" rel="stylesheet">
     <script src="~/Areas/Admin/assets/js/jquery.min.js"></script>
     <script src="~/Areas/Admin/assets/js/bootstrap-validate.js"></script>
+    <script src="~/Areas/Admin/assets/js/bootstrap.min.js"></script>
+    <script src="~/Areas/Admin/assets/js/popper.min.js"></script>
     <style>
         .containerPage {
             display: flex;
@@ -22,20 +24,22 @@
             display: flex;
             width: 250px;
             height: 100vh;
-            background-color: #242939;
-            color: #dfe0e2;
+            background-color: #f1f1f1;
+            color: #000000;
             flex-direction: column;
             position: fixed;
             top: 0;
             left: 0;
-            z-index: 100
+            z-index: 100;
+            padding-top: 30px;
+           
         }
 
         .rightPage {
             margin-left: 250px;
             display: flex;
             color: #4a4c69;
-            background-color: #f2f3f8;
+            background-color: #ffffff;
             flex-direction: column;
             width: 100%;
         }
@@ -78,36 +82,73 @@
             min-height: 100vh;
             margin-top: 50px;
         }
+        .navContainer {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-direction: column;
+        }
+        .tabToColapse {
+            width: 100%;
+            height: 30px;
+            display: flex;
+            justify-content: space-between;
+            padding: 5px;
+            align-items: center;
+            flex-direction: row;
+
+        }
+        .listOption {
+            width: 100%;
+            margin: 0 5px;
+        }
+        .welcomeContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
     </style>
 </head>
 <body class="containerPage">
     <div class="leftPage">
-        <div class="container-fluid">
+        <div class="container-fluid welcomeContainer">
             <h3>Welcome back, @Session["username"]</h3>
+            <img height="56" width="56" src="~/Areas/Admin/assets/images/icon/panel.svg" />
         </div>
         <!------------------------------------------------------------------------------------>
         <!---------------------------------------NAVBAR--------------------------------------->
-        <!------------------------------------------------------------------------------------>
-        <nav class="navbar navbar-default">
-
-            <div class="collapse" id="navbarToggleExternalContent">
-                <div class="bg-dark p-4">
-                    <h4 class="text-white">Collapsed content</h4>
-                    <span class="text-muted">Toggleable via the navbar brand.</span>
-                </div>
-
+        <!--TODO: Create navbar navigation-->
+        <nav class="navbar navbar-default navContainer">
+            <!--Product-->
+            <div class="tabToColapse" data-toggle="collapse" data-target="">
+                <a href="~/Admin/AdminHome">Home</a>
             </div>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-                asdfasdfkjhsadkfj
-            </button>
+            <!--Product-->
+            <div class="tabToColapse" data-toggle="collapse" data-target="#listOfProductOption">
+                <div>Product</div>
+                <img height="18" width="18" src="~/Areas/Admin/assets/images/icon/down-arrow.svg" />
+            </div>
+            <div class="list-group collapse listOption" id="listOfProductOption">
+                <a class="list-group-item list-group-item-action" href="~/Admin/AdminProduct/List">List</a>
+                <a class="list-group-item list-group-item-action" href="~/Admin/AdminProduct/Insert">Insert New Product</a>
+            </div>
+            <!--Product Detail-->
+            <div class="tabToColapse" data-toggle="collapse" data-target="#listProductDetailOption">
+                <div>Product Detail</div>
+                <img height="18" width="18" src="~/Areas/Admin/assets/images/icon/down-arrow.svg" />
+            </div>
+            <div class="list-group collapse listOption" id="listProductDetailOption">
+                <a class="list-group-item list-group-item-action" href="~/Admin/AdminProductDetail/List">List </a>
+            </div>
+            <!--Size-->
 
         </nav>
     </div>
     <div class="rightPage">
         <div class="headerTopBar">
             <a href="@Url.Action("Logout", "AdminAccount")">
-                Logout &nbsp;
+                Logout &nbsp; <span class="glyphicon glyphicon-asterisk"></span>
                 <img height="24" width="24" src="~/Areas/Admin/assets/images/icon/logout.svg" />
             </a>
         </div>
@@ -120,3 +161,8 @@
 
 </body>
 </html>
+<script>
+    function gotoHome() {
+         
+    }
+</script>

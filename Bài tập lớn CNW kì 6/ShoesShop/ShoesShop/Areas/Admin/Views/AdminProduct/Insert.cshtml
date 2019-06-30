@@ -3,60 +3,87 @@
     ViewBag.Title = "Insert";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+@using ShoesShop.Areas.Admin.Models.Entities
+@model Sho
 <style>
     .container {
         margin-top: 30px;
         padding-bottom: 130px;
     }
+
     .form-control {
         width: 500px;
     }
+
     .form-group {
         width: 500px;
+    }
+    .flexRow {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+        width: 100%;
     }
 </style>
 <div class="container">
     <h2>Insert new Shoes</h2>
-    <form>
-        <div class="form-group">
-            <label>Name</label>
-            <input class="form-control" id="shoesName" />
-        </div>
-        <div class="form-group">
-            <label>Description</label>
-            <textarea class="form-control" id="shoesDescription" rows="5"></textarea>
-        </div>
-        <div class="form-group">
-            <label>Image</label>
-            <input type="file" class="form-control-file" id="shoesImage" />
-        </div>
-        <div class="form-group">
-            <label>Category</label>
-            <select class="form-control" id="shoesCategory">
-                <option>Transport</option>
-                <option>Soccer</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>Vendor</label>
-            <select class="form-control" id="shoesVendor">
-                <option>Bitis</option>
-                <option>Thuong Dinh</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>Price</label>
-            <div class="input-group">
-                <input type="number" class="form-control" id="shoesPrice" />
-                <div class="input-group-prepend">
-                    <span class="input-group-text">$</span>
+    @using (Html.BeginForm("Insert", "AdminProduct", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        var listCategories = ViewBag.listCategories;
+        var listVendors = ViewBag.listVendors;
+        var listCategoriesOption = new List<SelectListItem>();
+        var listVendorsOption = new List<SelectListItem>();
+        foreach(var item in listCategories)
+        {
+            listCategoriesOption.Add(new SelectListItem { Text = item.name, Value = item.idCategory.ToString() });
+        }
+        foreach(var item in listVendors)
+        {
+            listVendorsOption.Add(new SelectListItem { Text = item.name, Value = item.idVendor.ToString() });
+        }
+        <form>
+            <div class="form-group">
+                <label>Name</label>
+                @Html.TextBoxFor(model => model.name, new { @class = "form-control", @id = "shoesName" })
+                @Html.ValidationMessageFor(model => model.name)
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                @Html.TextBoxFor(model => model.description, new { @class = "form-control", @id = "shoesDescription", @rows = "5" })
+                @Html.ValidationMessageFor(model => model.description)
+
+            </div>
+            <div class="form-group">
+                <label>Image</label>
+                <div class="flexRow">
+                    <img height="40" width="80" src="~/Areas/Admin/assets/images/icon/file.svg" id="shoesImage" />
+                    <input style="margin-left: 30px" type="file" class="form-control-file" name="photo" id="shoesImageFile" />
+                </div>
+               
+            </div>
+            <div class="form-group">
+                <label>Category</label>
+                @Html.DropDownListFor(model => model.idCategory, listCategoriesOption, new { @class = "form-control", @id = "shoesDescription", @rows = "5" })
+            </div>
+            <div class="form-group">
+                <label>Vendor</label>
+                @Html.DropDownListFor(model => model.idVendor, listVendorsOption, new { @class = "form-control", @id = "shoesDescription", @rows = "5" })
+            </div>
+            <div class="form-group">
+                <label>Price</label>
+                <div class="input-group">
+                    @Html.TextBoxFor(model => model.price, new {@type="number" , @class = "form-control", @id = "shoesPrice", @rows = "5" })
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                    </div>
                 </div>
             </div>
-        </div>
-        <button class="btn btn-primary" id="btnSubmit">Submit</button>
-    </form>
+            <button class="btn btn-primary" id="btnSubmit">Submit</button>
+        </form>
+    }
 </div>
-@if(ViewBag.message == "Success")
+@if (ViewBag.message == "Success")
 {
     <div>Send Succeess</div>
 }
@@ -66,4 +93,25 @@
     $("#btnSubmit").click(() => {
         console.log("Onclick")
     })
+
+    // Change file when choose
+    $(function () {
+        $("#shoesImageFile").change(function () {
+            readURL(this);
+        });
+    });
+
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                //alert(e.target.result);
+                $('#shoesImage').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
 </script>

@@ -130,9 +130,11 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminAccountController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminColorController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminErrorController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminHomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminProductController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminProductDetailController.cs" />
     <Compile Include="Areas\Admin\Models\Entities\Account.cs" />
     <Compile Include="Areas\Admin\Models\Entities\Cart.cs" />
     <Compile Include="Areas\Admin\Models\Entities\Category.cs" />
@@ -152,6 +154,7 @@
     <Compile Include="Areas\Admin\Models\Funtions\SizeFunction.cs" />
     <Compile Include="Areas\Admin\Models\Funtions\VendorFunction.cs" />
     <Compile Include="Areas\Admin\Models\ViewModals\AccountModal.cs" />
+    <Compile Include="Areas\Admin\Models\ViewModals\AdminProductDetailModal.cs" />
     <Compile Include="Areas\Admin\Security\CustomAdminPrincipal.cs" />
     <Compile Include="Areas\Admin\Security\MyAdminAuthorizeAttribute.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -162,15 +165,28 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Admin\assets\css\bootstrap.min.css" />
+    <Content Include="Areas\Admin\assets\images\icon\down-arrow.svg" />
+    <Content Include="Areas\Admin\assets\images\icon\error.svg" />
+    <Content Include="Areas\Admin\assets\images\icon\file.svg" />
     <Content Include="Areas\Admin\assets\images\icon\left-arrow.svg" />
     <Content Include="Areas\Admin\assets\images\icon\logout.png" />
     <Content Include="Areas\Admin\assets\images\icon\logout.svg" />
+    <Content Include="Areas\Admin\assets\images\icon\no_data.svg" />
+    <Content Include="Areas\Admin\assets\images\icon\panel.svg" />
+    <Content Include="Areas\Admin\assets\images\icon\sort-down.svg" />
     <Content Include="Areas\Admin\assets\js\bootstrap-validate.js" />
+    <Content Include="Areas\Admin\assets\js\bootstrap.min.js" />
     <Content Include="Areas\Admin\assets\js\jquery.min.js" />
+    <Content Include="Areas\Admin\assets\js\popper.min.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\Screenshot %2814%29.png" />
+    <Content Include="Content\Images\Screenshot %2815%29.png" />
+    <Content Include="Content\Images\Screenshot %2820%29.png" />
+    <Content Include="Content\Images\Screenshot %2823%29.png" />
+    <Content Include="Content\Images\Screenshot %288%29.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -188,6 +204,12 @@
     <Content Include="Areas\Admin\Views\AdminProduct\List.cshtml" />
     <Content Include="Areas\Admin\Views\AdminProduct\Insert.cshtml" />
     <Content Include="Areas\Admin\Views\AdminProduct\Update.cshtml" />
+    <Content Include="Areas\Admin\Views\AdminColor\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\AdminColor\List.cshtml" />
+    <Content Include="Areas\Admin\Views\AdminError\InsertFail.cshtml" />
+    <Content Include="Areas\Admin\Views\AdminProductDetail\List.cshtml" />
+    <Content Include="Areas\Admin\Views\AdminProductDetail\Insert.cshtml" />
+    <Content Include="Areas\Admin\Views\AdminProductDetail\Update.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

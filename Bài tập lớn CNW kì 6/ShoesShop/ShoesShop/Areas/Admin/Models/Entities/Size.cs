@@ -19,7 +19,7 @@ namespace ShoesShop.Areas.Admin.Models.Entities
         public int idSize { get; set; }
 
         [Column("size")]
-        public int? size1 { get; set; }
+        public int? size { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ShoesDetail> ShoesDetails { get; set; }

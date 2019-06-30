@@ -219,3 +219,82 @@ BEGIN
 	OR idVendor LIKE N'%' + @searchValue + N'%'
 	OR price LIKE N'%' + @searchValue + N'%'
 END
+GO
+
+CREATE PROCEDURE SP_Color_Search
+	@searchValue NVARCHAR(100)
+AS
+BEGIN
+	SELECT * FROM Color
+	WHERE idColor LIKE N'%' + @searchValue + N'%'
+	OR color LIKE N'%' + @searchValue + N'%'
+END
+GO
+
+CREATE PROCEDURE SP_Size_Search
+	@searchValue NVARCHAR(100)
+AS
+BEGIN
+	SELECT * FROM Size
+	WHERE size LIKE N'%' + @searchValue + N'%'
+	OR idSize LIKE N'%' + @searchValue + N'%'
+END
+GO
+
+CREATE PROCEDURE SP_Category_Search
+	@searchValue NVARCHAR(100)
+AS
+BEGIN
+	SELECT * FROM Category
+	WHERE idCategory LIKE N'%' + @searchValue + N'%'
+	OR name LIKE N'%' + @searchValue + N'%'
+END
+GO
+
+CREATE PROCEDURE SP_Vendor_Search
+	@searchValue NVARCHAR(100)
+AS
+BEGIN
+	SELECT * FROM Vendor
+	WHERE idVendor LIKE N'%' + @searchValue + N'%'
+	OR name LIKE N'%' + @searchValue + N'%'
+	OR address LIKE N'%' + @searchValue + N'%'
+	OR phoneNumber LIKE N'%' + @searchValue + N'%'
+END
+GO
+
+CREATE PROCEDURE SP_ShoesDetail_Search
+	@searchValue NVARCHAR(100)
+AS
+BEGIN
+	SELECT * FROM ShoesDetail
+	WHERE idShoesDetail LIKE N'%' + @searchValue + N'%'
+	OR idShoes LIKE N'%' + @searchValue + N'%'
+	OR idColor LIKE N'%' + @searchValue + N'%'
+	OR idSize LIKE N'%' + @searchValue + N'%'
+	OR quantity LIKE N'%' + @searchValue + N'%'
+END
+GO
+
+--- Delete
+CREATE PROCEDURE SP_Shoes_Delete
+	@idShoes int
+AS
+BEGIN
+	Delete ShoesDetail 
+	Where idShoes = @idShoes
+
+	Delete Shoes
+	where idShoes = @idShoes
+END
+GO
+
+CREATE PROCEDURE SP_ShoesDetail_Delete
+	@idShoesDetail int
+AS
+BEGIN
+	Delete ShoesDetail 
+	Where idShoesDetail = @idShoesDetail
+END
+GO
+SP_Shoes_Delete 24

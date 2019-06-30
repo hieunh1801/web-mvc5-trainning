@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using ShoesShop.Areas.Admin.Models.Entities;
@@ -51,7 +52,7 @@ namespace ShoesShop.Areas.Admin.Models.Functions
             if (entry == null) return false;
             
             // Step 2: update
-            entry.size1 = size.size1;
+            entry.size = size.size;
             
             // Step 3: sync
             int result = context.SaveChanges();
@@ -73,6 +74,16 @@ namespace ShoesShop.Areas.Admin.Models.Functions
             return result > 0;
         }
         // 6: Search
+        public List<Size> Search(string searchValue)
+        {
+            /* Step 1: Find entry in context by using Where()*/// = context.Vendors.Where(item => (item.idVendor.ToString() == searchValue));
+            var parameters = new[]
+            {
+                new SqlParameter {ParameterName = "searchValue", Value = searchValue },
+            };
 
+            var data = context.Sizes.SqlQuery("SP_Size_Search @searchValue", parameters).ToList();
+            return data;
+        }
     }
 }

@@ -1,0 +1,289 @@
+﻿
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@using ShoesShop.Areas.Admin.Models.Entities
+@using ShoesShop.Areas.Admin.Models.ViewModals
+@model AdminProductDetailModal
+<style>
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+        width: 100%;
+        height: 100%;
+        padding: 10px;
+    }
+    a {
+
+    }
+    .left {
+        display: flex;
+        flex: 3;
+        width: 100%;
+        align-self: flex-start;
+        flex-direction: column;
+        padding-right: 10px;
+        border-right: solid;
+        border-right-width: 1px;
+        border-right-color: #f1f1f1;
+        justify-content:center;
+        align-items: center;
+    }
+
+    .right {
+        display: flex;
+        flex: 7;
+        width: 100%;
+        align-self: flex-start;
+        flex-direction: column;
+        padding: 0 10px;
+        border-right: solid;
+        border-right-width: 1px;
+        border-right-color: #f1f1f1;
+    }
+
+    .searchBarContainerLeft, .searchBarContainerRight {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 20px 0px;
+    }
+    .serchResultRight {
+        display: flex;
+        align-self: center;
+        justify-content: center;
+    }
+    .productDetailListContainer {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+</style>
+<div class="container">
+    @{
+        List<Sho> listShoes = Model.ListShoes;
+        List<ShoesDetail> listShoesDetails = Model.ListShoesDetails;
+    }
+    <div class="left">
+        <div class="searchBarContainerLeft">
+            <input id="txtSearchLeft" class="form-control" type="text" placeholder="Search" aria-label="Search">
+            <input id="btnSearchLeft" style="margin-left: 20px" type="button" value="Search" class="btn btn-dark btnLogin btnSearch" />
+        </div>
+
+        <table class="table table-hover" id="tableOfShoes">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Name</th>
+                </tr>
+            </thead>
+            <tbody id="serchResultLeft" />
+            <tbody id="contentOfTableLeft">
+                @{
+                    foreach (Sho shoes in listShoes)
+                    {
+                        <tr onclick="onClickShoe(@shoes.idShoes)">
+                            <td scope="row">@shoes.idShoes</td>
+                            <td>@shoes.name</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+    </div>
+    <div class="right">
+        <div class="productDetailListContainer">
+            <div class="searchBarContainerRight">
+                <input id="txtSearchRight" class="form-control" type="text" placeholder="Search" aria-label="Search">
+                <input id="btnSearchRight" style="margin-left: 20px" type="button" value="Search" class="btn btn-dark btnLogin btnSearch" />
+            </div>
+
+            <table class="table table-hover" id="tableOfShoesDetail">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Id Color</th>
+                        <th scope="col">Id Shoes</th>
+                        <th scope="col">Id Size</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="serchResultRight" />
+                <tbody id="contentOfTableRight">
+                    @{
+                        foreach (ShoesDetail item in listShoesDetails)
+                        {
+                            <tr>
+                                <td>@item.idShoesDetail</td>
+                                <td>@item.idColor</td>
+                                <td>@item.idShoes</td>
+                                <td>@item.idSize</td>
+                                <td>@item.quantity</td>
+                                <td><img height="40" width="80" src="@item.urlImage" alt="@item.idShoesDetail" /></td>
+                                <th><input type="button" class="btn btn-dark" href="" onclick="gotoUpdateActionUrl(@item.idShoesDetail)" value="Edit" /> | <input type="button" class="btn btn-danger" value="Delete" onclick="deleteItem(@item.idShoesDetail)" /></th>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-primary" id="btnAddNewProductdetail" onclick="switchToInsertNewProduct()">Adding New Product Detail</button>
+        </div>
+
+    </div>
+    <!-- The Modal -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modalTitle">Warnning</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body" id="modalBody">
+                    Are you sure to delete item ?
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer" id="modalFooter">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" id="btnAccept">Accept</button>
+                    <button type="button" class="btn btn-dark" data-dismiss="modal" id="btnCancle">Cancle</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // Insert Data
+    var currentIdShoesClick = @listShoes[0].idShoes;
+
+    function gotoUpdateActionUrl(idShoesDetail) {
+        location.href = "Update?idShoesDetail=" + idShoesDetail;
+    }
+    function switchToInsertNewProduct() {
+        location.href = "Insert?idShoes=" + currentIdShoesClick;
+    }
+    // Search Data
+    function loadDataToFormShoes(data) {
+        $("#contentOfTableLeft").empty();
+        $("#serchResultLeft").empty();
+        if (data.length == 0) {
+            console.log('data.length', data.length == 0)
+            $("#serchResultLeft").append(`
+                <div id="noData">
+                    <img height="56" width="56" src="/Areas/Admin/assets/images/icon/no_data.svg" />
+                    <div>No Data</div>
+                </div>
+             `);
+        }
+        $.each(data, function (index) {
+            $("#serchResultLeft").append(
+                ` <tr onclick="onClickShoe(${data[index].idShoes})">
+                    <td>${data[index].idShoes}</td>
+                    <td>${data[index].name}</td>
+                </tr>`
+            );
+        })
+    }
+    function loadDataToFormShoesDetail(data) {
+        $("#contentOfTableRight").empty();
+        $("#serchResultRight").empty();
+        if (data.length == 0) {
+            $("#serchResultRight").append(`
+                <div id="noData">
+                    <img height="56" width="56" src="/Areas/Admin/assets/images/icon/no_data.svg" />
+                    <div>No Data</div>
+                </div>
+             `);
+        }
+        $.each(data, function (index) {
+            $("#serchResultRight").append(
+                ` <tr>
+                    <td>${data[index].idShoesDetail}</td>
+                    <td>${data[index].idColor}</td>
+                    <td>${data[index].idShoes}</td>
+                    <td>${data[index].idSize}</td>
+                    <td>${data[index].quantity}</td>
+                    <td><img height="40" width="80" src="${data[index].urlImage}" alt="${data[index].urlImage}" /></td>
+                    <th><input type="button" class="btn btn-dark" href="" onclick="gotoUpdateActionUrl(${data[index].idShoesDetail})" value="Edit"/> | <input type="button" class="btn btn-danger" value="Delete" onclick="deleteItem(${data[index].idShoesDetail})"/></th>
+                </tr>`
+            );
+        })
+    }
+    function onClickShoe(idShoes) {
+        console.log("Click to idShoes", idShoes);
+        currentIdShoesClick = idShoes;
+        $(".productDetailListContainer").show();
+        $("#insertNewProductDetail").hide();
+        var url = '@Url.Action("GetProductDetailListById", "AdminProductDetail")' + '?idShoes=' + idShoes;
+        jQuery.ajax({
+            type: 'POST',
+            dataType: "json",
+            contentType: "application/json",
+            url: url,
+            success: function (data) {
+                loadDataToFormShoesDetail(data)
+            }
+        })
+    }
+    $(document).ready(function () {
+        $("#btnSearchLeft").click(function () {
+            txtSearch = $("#txtSearchLeft").val();
+            var url = '@Url.Action("SearchShoes", "AdminProductDetail")' + '?searchValue=' + txtSearch;
+            jQuery.ajax({
+                type: 'POST',
+                dataType: "json",
+                contentType: "application/json",
+                url: url,
+                success: function (data) {
+                    loadDataToFormShoes(data)
+                }
+            })
+        })
+        $("#btnSearchRight").click(function () {
+            txtSearch = $("#txtSearchRight").val();
+            var url = '@Url.Action("SearchShoesDetail", "AdminProductDetail")' + '?searchValue=' + txtSearch;
+            jQuery.ajax({
+                type: 'POST',
+                dataType: "json",
+                contentType: "application/json",
+                url: url,
+                success: function (data) {
+                    loadDataToFormShoesDetail(data)
+                }
+            })
+        })
+    });
+    // Delete data
+    var currentIdDelete = -1;
+    function deleteItem(idShoesDetail) {
+        $("#myModal").modal('show');
+        console.log('Id of item want to delete', idShoesDetail);
+        $("#btnAccept").click(function () {
+            currentIdDelete = idShoesDetail;
+            console.log('Accept delete item id: ', currentIdDelete);
+            // TODO: Call Ajax here to delete item with id=?
+            var url = '@Url.Action("Delete", "AdminProductDetail")' + '?idShoesDetail=' + currentIdDelete;
+            jQuery.ajax({
+                type: 'POST',
+                dataType: "json",
+                contentType: "application/json",
+                url: url,
+                success: function (data) {
+                    console.log('Delete Success', data);
+                    loadDataToFormShoesDetail(data)
+                }
+            })
+        })
+    }
+</script>
+

@@ -18,6 +18,7 @@ namespace ShoesShop.Areas.Admin.Models.Entities
         public int idShoes { get; set; }
 
         [StringLength(50)]
+        [Required]
         public string name { get; set; }
 
         [Column(TypeName = "ntext")]
@@ -30,6 +31,7 @@ namespace ShoesShop.Areas.Admin.Models.Entities
 
         public int? idVendor { get; set; }
 
+        [Required]
         public double? price { get; set; }
 
         public virtual Category Category { get; set; }

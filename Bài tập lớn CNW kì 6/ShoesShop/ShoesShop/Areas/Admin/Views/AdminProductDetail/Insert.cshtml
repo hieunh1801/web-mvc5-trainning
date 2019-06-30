@@ -1,0 +1,96 @@
+﻿
+@{
+    ViewBag.Title = "Insert";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@using ShoesShop.Areas.Admin.Models.Entities
+@model ShoesDetail
+<style>
+    .containerCustom {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding-left: 30px;
+        flex-direction: column;
+    }
+    .form-control {
+        width: 500px;
+    }
+    .form-group {
+        width: 500px;
+    }
+    .flexRow {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+        width: 100%;
+    }
+</style>
+<div class="containerCustom">
+    <h2 class="">Insert new Detail for Shoes id = @ViewBag.idShoes</h2>
+    @using (Html.BeginForm("Insert", "AdminProductDetail", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        var listColor = ViewBag.listColor;
+        var listSize = ViewBag.listSize;
+        var listColorOption = new List<SelectListItem>();
+        var listSizeOption = new List<SelectListItem>();
+        foreach (Color item in listColor)
+        {
+            listColorOption.Add(new SelectListItem { Text = item.color, Value = item.idColor.ToString() });
+        }
+        foreach (Size item in listSize)
+        {
+            listSizeOption.Add(new SelectListItem { Text = item.size.ToString(), Value = item.idSize.ToString() });
+        }
+        <form>
+            <div class="form-group">
+                <label>Shoes ID</label>
+                @Html.TextBoxFor(model => model.idShoes, new { @class = "form-control", @id = "idShoes" })
+            </div>
+            <div class="form-group">
+                <label>Quantity</label>
+                @Html.TextBoxFor(model => model.quantity, new { @type = "number", @class = "form-control", @id = "quantity" })
+                @Html.ValidationMessageFor(model => model.quantity)
+            </div>
+            <div class="form-group">
+                <label>Image</label>
+                <div class="flexRow">
+                    <img height="40" width="80" src="~/Areas/Admin/assets/images/icon/file.svg" id="shoesImage" />
+                    <input style="margin-left: 30px" type="file" class="form-control-file" name="photo" id="shoesImageFile" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Color</label>
+                @Html.DropDownListFor(model => model.idColor, listColorOption, new { @class = "form-control", @id = "idColor", @rows = "5" })
+            </div>
+            <div class="form-group">
+                <label>Size</label>
+                @Html.DropDownListFor(model => model.idSize, listSizeOption, new { @class = "form-control", @id = "idColor", @rows = "5" })
+            </div>
+            <button class="btn btn-primary" id="btnSubmit">Submit</button>
+        </form>
+    }
+</div>
+
+<script>
+    $(function () {
+        $("#shoesImageFile").change(function () {
+            readURL(this);
+        });
+    });
+
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                //alert(e.target.result);
+                $('#shoesImage').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>

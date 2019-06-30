@@ -14,5 +14,11 @@ namespace ShoesShop.Areas.Admin.Controllers
         {
             return View();
         }
+
+        [AllowAnonymous]
+        public ActionResult InsertFail()
+        {
+            return View();
+        }
     }
 }

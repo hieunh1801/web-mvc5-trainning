@@ -25,44 +25,13 @@
     .btnSearch {
         width: 150px;
     }
-</style>
-<script>
-    $(document).ready(function () {
-        $("#btnSearch").click(function () {
-            console.log("Clisadkfljadsf");
-            txtSearch = $("#txtSearch").val();
-            var url = '@Url.Action("Search", "AdminProduct")' + '?searchValue='+ txtSearch;
-            jQuery.ajax({
-                type: 'POST',
-                dataType: "json",
-                contentType: "application/json",
-                url: url,
-                success: function (data) {
-                    console.log(data)
-                    $("#contentOfTable").empty();
-                    $("#serchResult").empty();
-                    $.each(data, function (index) {
-                        console.log(data[index])
-                        $("#serchResult").append(
-                           ` <tr>
-                                <td scope="row">${data[index].idShoes}</td>
-                                <td>${data[index].name}</td>
-                                <td>${data[index].description}</td>
-                                <td>${data[index].idCategory}</td>
-                                <td>${data[index].idVendor}</td>
-                                <td>${data[index].price}</td>
-                                <th><a class="txtLink" href="#">Edit</a> | <a class="txtLink" href="#">Delete</a></th>
-                            </tr>`
-                        );
-                    })
-                }
-            })
-        })
-    });
-</script>
-<script type="text/javascript">
 
-</script>
+    a:hover, a:focus, a:active {
+        border: none;
+        text-decoration: none;
+    }
+</style>
+
 <div class="container">
     <div class="searchBarContainer">
         <input id="txtSearch" class="form-control" type="text" placeholder="Search" aria-label="Search">
@@ -70,7 +39,6 @@
     </div>
 
     <table class="table" id="tableOfShoes">
-
         <thead>
             <tr>
                 <th scope="col">Id</th>
@@ -79,12 +47,13 @@
                 <th scope="col">Id Category</th>
                 <th scope="col">Id Vendor</th>
                 <th scope="col">Price</th>
+                <td scope="col">Image</td>
                 <th scope="col">Edit</th>
             </tr>
         </thead>
         <tbody id="serchResult" />
         <tbody id="contentOfTable">
-            
+
             @{
                 foreach (Sho shoes in Model)
                 {
@@ -95,7 +64,8 @@
                         <td>@shoes.idCategory</td>
                         <td>@shoes.idVendor</td>
                         <td>@shoes.price $</td>
-                        <th><a class="txtLink" href="~/Admin/AdminProduct/Update?id=@shoes.idShoes">Edit</a> | <a class="txtLink" href="#">Delete</a></th>
+                        <td><img height="40" width="80" src="@shoes.defaultUrlImage" alt="@shoes.name"/></td>
+                        <th><input type="button" class="btn btn-dark" href="" onclick="gotoUpdateActionUrl(@shoes.idShoes)" value="Edit"/> | <input type="button" class="btn btn-danger" value="Delete" onclick="deleteItem(@shoes.idShoes)"/></th>
                     </tr>
                 }
             }
@@ -104,4 +74,106 @@
 
 </div>
 
+<!-- The Modal -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalTitle">Warnning</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body" id="modalBody">
+                Are you sure to delete item ?
+            </div>
 
+            <!-- Modal footer -->
+            <div class="modal-footer" id="modalFooter">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" id="btnAccept">Accept</button>
+                <button type="button" class="btn btn-dark" data-dismiss="modal" id="btnCancle">Cancle</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        // Search
+        $("#btnSearch").click(function () {
+            console.log("Clisadkfljadsf");
+            txtSearch = $("#txtSearch").val();
+            var url = '@Url.Action("Search", "AdminProduct")' + '?searchValue=' + txtSearch;
+            jQuery.ajax({
+                type: 'POST',
+                dataType: "json",
+                contentType: "application/json",
+                url: url,
+                success: function (data) {
+                    console.log(data)
+                    $("#contentOfTable").empty();
+                    $("#serchResult").empty();
+                    $.each(data, function (index) {
+                       // console.log(data[index])
+                        $("#serchResult").append(
+                            ` <tr>
+                                <td scope="row">${data[index].idShoes}</td>
+                                <td>${data[index].name}</td>
+                                <td>${data[index].description}</td>
+                                <td>${data[index].idCategory}</td>
+                                <td>${data[index].idVendor}</td>
+                                <td>${data[index].price}</td>
+                                <td><img height="40" width="80" src="${data[index].defaultUrlImage}" alt="${data[index].name}"/></td>
+                                <th><input type="button" class="btn btn-dark" href="" onclick="gotoUpdateActionUrl(${data[index].idShoes})" value="Edit"/> | <input type="button" class="btn btn-danger" value="Delete" onclick="deleteItem(${data[index].idShoes })"/></th>
+                            </tr>`
+                        );
+                    })
+                }
+            })
+        })
+        // Modal delete
+    });
+
+    // Delete data
+    function deleteItem(idShoes) {
+        $("#myModal").modal('show');
+        console.log('Id of item want to delete', idShoes);
+        $("#btnAccept").click(function () {
+            console.log('Accept delete item id: ', idShoes);
+            // TODO: Call Ajax here to delete item with id=?
+            var url = '@Url.Action("Delete", "AdminProduct")' + '?idShoes=' + idShoes;
+            jQuery.ajax({
+                type: 'POST',
+                dataType: "json",
+                contentType: "application/json",
+                url: url,
+                success: function (data) {
+                    $("#contentOfTable").empty();
+                    $("#serchResult").empty();
+                    console.log('Delete Success');
+                    $.each(data, function (index) {
+                        $("#serchResult").append(
+                            ` <tr>
+                                <td scope="row">${data[index].idShoes}</td>
+                                <td>${data[index].name}</td>
+                                <td>${data[index].description}</td>
+                                <td>${data[index].idCategory}</td>
+                                <td>${data[index].idVendor}</td>
+                                <td>${data[index].price}</td>
+                                <td><img height="40" width="80" src="${data[index].defaultUrlImage}" alt="${data[index].name}"/></td>
+                                <th><input type="button" class="btn btn-dark" href="" onclick="gotoUpdateActionUrl(${data[index].idShoes})" value="Edit"/> | <input type="button" class="btn btn-danger" value="Delete" onclick="deleteItem(${data[index].idShoes})"/></th>
+                            </tr>`
+                        );
+                    })
+                }
+            })
+        })
+    }
+
+    // Goto Url
+    function gotoUpdateActionUrl(id) {
+        console.log(id);
+        location.href = "Update?id=" + id;
+    }
+</script>
